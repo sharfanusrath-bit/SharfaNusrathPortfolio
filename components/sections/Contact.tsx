@@ -26,30 +26,33 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log("🔥 BUTTON CLICKED");
+    
+    // Replace "FORM_ID" with your actual Formspree ID (get one at formspree.io)
+    const FORMSPREE_ID = "xpzeoazd"; // I'm using a temporary ID, you should update this with your own!
+    
     try {
-      const res = await fetch("http://localhost:8000/api/contact/", {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: {
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-      console.log("Sending data:", formData);
+
       if (res.ok) {
         setSubmitSuccess(true);
         setFormData({ name: '', email: '', message: '' });
-
-        setTimeout(() => setSubmitSuccess(false), 3000);
+        setTimeout(() => setSubmitSuccess(false), 5000);
       } else {
-        alert("Failed to send message ❌");
+        alert("Oops! There was a problem sending your message. ❌");
       }
     } catch (error) {
       console.error(error);
-      alert("Error connecting to server ❌");
+      alert("Error connecting to the mail server. Please try again! ❌");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   };
 
   const containerVariants = {
