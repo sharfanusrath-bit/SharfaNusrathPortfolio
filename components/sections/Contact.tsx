@@ -27,8 +27,8 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Replace "FORM_ID" with your actual Formspree ID (get one at formspree.io)
-    const FORMSPREE_ID = "xpzeoazd"; // I'm using a temporary ID, you should update this with your own!
+    // This is your actual Formspree ID!
+    const FORMSPREE_ID = "xpqynqeg"; 
     
     try {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
