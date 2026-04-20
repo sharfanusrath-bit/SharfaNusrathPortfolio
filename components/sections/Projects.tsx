@@ -4,7 +4,7 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import Tilt from '@/components/Tilt';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, Code2, Globe } from 'lucide-react';
 
 const Projects = () => {
   const ref = useRef(null);
@@ -12,23 +12,22 @@ const Projects = () => {
 
   const projects = [
     {
-      title: 'Forensic degital evidence storage Platform',
-      description: 'A secure blockchain based platform for storing digital evidences and chain of custody management',
-      technologies: ['HTML', 'CSS', 'javascript', 'django', 'MySQl', 'Ethereum-Ganache', 'Anaconda'],
-      image: <img src="/forensicphoto.png" />,
+      title: 'Forensic Digital Evidence Storage',
+      description: 'A secure blockchain-based platform for storing digital evidence and chain of custody management.',
+      technologies: ['Django', 'MySQL', 'Ethereum', 'Web3.js', 'Blockchain'],
+      image: <img src="/forensicphoto.png" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />,
       githubLink: 'https://github.com/sharfanusrath-bit/App.git',
-      color: 'from-purple-500 to-pink-500',
+      accentColor: 'border-indigo-500/50',
     },
     {
       title: 'AI Text-Classifier',
-      description: 'A machine learning model for classifying text into predefined categories',
-      technologies: ['Python', 'TensorFlow', 'NLP', 'Scikit-learn'],
-      image: <img src="/aitextclassifierphoto.png" />,
+      description: 'A high-accuracy machine learning model for classifying complex text data into categories.',
+      technologies: ['Python', 'TensorFlow', 'NLP', 'Scikit-learn', 'React'],
+      image: <img src="/aitextclassifierphoto.png" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />,
       githubLink: 'https://github.com/sharfanusrath-bit/AI-Text-Classifier.git',
-      color: 'from-blue-500 to-cyan-500',
-      livelink:'https://text-classifier-app-3usp.onrender.com/',
+      livelink: 'https://text-classifier-app-3usp.onrender.com/',
+      accentColor: 'border-cyan-500/50',
     },
-    
   ];
 
   const containerVariants = {
@@ -52,98 +51,81 @@ const Projects = () => {
   };
 
   return (
-    <section
-      id="projects"
-      ref={ref}
-      className="py-20 px-4 sm:px-6 lg:px-8 relative"
-    >
-      <div className="max-w-6xl mx-auto">
+    <section id="projects" ref={ref} className="py-24 px-4 sm:px-6 lg:px-8 relative bg-slate-50 dark:bg-slate-900/10">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="space-y-12"
+          className="space-y-16"
         >
           {/* Section Header */}
-          <motion.div variants={cardVariants} className="flex items-center gap-4">
-            <div className="h-1 w-16 bg-gradient-primary rounded-full" />
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">Featured Projects</h2>
+          <motion.div variants={cardVariants} className="space-y-6 text-center mb-20">
+            <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">Selected Work</h2>
+            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828] tracking-tight">
+              Aesthetic Creations
+            </h3>
+            <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
           </motion.div>
 
           {/* Projects Grid */}
-          <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             {projects.map((project, idx) => (
-              <Tilt key={idx} max={20} scale={1.05}>
-                <motion.div variants={cardVariants} className="h-full">
-                  <div className="glass-effect rounded-2xl overflow-hidden h-full flex flex-col hover:shadow-2xl transition-all group">
-                    {/* Image/Icon */}
-                    <div className={`h-40 bg-gradient-to-br ${project.color} relative overflow-hidden flex items-center justify-center`}>
-                      <motion.div
-                        className="text-8xl"
-                        whileHover={{ scale: 1.2, rotate: 10 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                      >
-                        {project.image}
-                      </motion.div>
-
-                      {/* Shine effect */}
-                      <motion.div
-                        className="absolute inset-0 bg-white/20"
-                        initial={{ x: '-100%' }}
-                        whileHover={{ x: '100%' }}
-                        transition={{ duration: 0.5 }}
-                      />
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6 flex-1 flex flex-col">
-                      {/* Title */}
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                        {project.title}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4 flex-1">
-                        {project.description}
-                      </p>
-
-                      {/* Technologies */}
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {project.technologies.map((tech, tIdx) => (
-                          <span
-                            key={tIdx}
-                            className="px-3 py-1 text-xs font-medium bg-purple-100/50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-full"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Links */}
-                      <div className="flex gap-3 pt-4 border-t border-white/10">
-                        <motion.a
-                          href={project.githubLink}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 border border-purple-300/50 dark:border-purple-500/50 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg hover:bg-purple-100/10 transition-colors"
-                        >
-                          Code
-                          <Github size={16} />
-                        </motion.a>
-                        <motion.a
-                          href={project.livelink}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 border border-green-300/50 dark:border-green-500/50 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-lg hover:bg-green-100/10 transition-colors"
-                        >
-                          Live Demo
-                          <ExternalLink size={16} />
-                        </motion.a>
-                      </div>
+              <motion.div key={idx} variants={cardVariants} className="h-full">
+                <div className="bg-white rounded-[2.5rem] overflow-hidden h-full flex flex-col group border border-[#e2e2df] hover:shadow-2xl transition-all duration-500 relative">
+                  
+                  {/* Image Container */}
+                  <div className="h-80 relative overflow-hidden bg-[#f5f3ee]">
+                    <div className="absolute inset-0 bg-[#282828]/10 group-hover:bg-transparent transition-colors z-10" />
+                    {project.image}
+                    
+                    {/* Floating Tech Badges */}
+                    <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-2 z-20">
+                      {project.technologies.slice(0, 3).map((tech, tIdx) => (
+                        <span key={tIdx} className="px-4 py-2 bg-[#f5f3ee] text-[#282828] text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg border border-[#e2e2df]">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                </motion.div>
-              </Tilt>
+
+                  {/* Content */}
+                  <div className="p-12 flex-1 flex flex-col">
+                    <h3 className="text-3xl font-serif font-black text-[#282828] mb-6 group-hover:text-[#ed6094] transition-colors">
+                      {project.title}
+                    </h3>
+
+                    <p className="text-[#282828]/70 text-base leading-relaxed mb-10 flex-1 font-sans">
+                      {project.description}
+                    </p>
+
+                    {/* Links */}
+                    <div className="flex gap-4 pt-8 mt-auto border-t border-[#e2e2df]">
+                      <motion.a
+                        href={project.githubLink}
+                        target="_blank"
+                        className="flex-1 flex items-center justify-center gap-3 py-4 bg-[#282828] text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#ed6094] transition-colors shadow-lg"
+                        whileHover={{ y: -5 }}
+                      >
+                        <Github size={18} />
+                        Repository
+                      </motion.a>
+                      
+                      {project.livelink && (
+                        <motion.a
+                          href={project.livelink}
+                          target="_blank"
+                          className="flex-1 flex items-center justify-center gap-3 py-4 border-2 border-[#282828] text-[#282828] text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#282828] hover:text-white transition-all shadow-md"
+                          whileHover={{ y: -5 }}
+                        >
+                          <Globe size={18} />
+                          Live Demo
+                        </motion.a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </motion.div>
         </motion.div>

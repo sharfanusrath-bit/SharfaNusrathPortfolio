@@ -3,6 +3,7 @@
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
+import { GraduationCap, Target, Heart } from 'lucide-react';
 
 const About = () => {
   const ref = useRef(null);
@@ -32,59 +33,64 @@ const About = () => {
     <section
       id="about"
       ref={ref}
-      className="py-20 px-4 sm:px-6 lg:px-8 relative"
+      className="py-32 px-4 sm:px-6 lg:px-8 relative bg-transparent"
     >
       <div className="max-w-4xl mx-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="space-y-8"
+          className="space-y-12"
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="flex items-center gap-4">
-            <div className="h-1 w-16 bg-gradient-primary rounded-full" />
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">About Me</h2>
+          <motion.div variants={itemVariants} className="space-y-6 text-center">
+            <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">Personal Story</h2>
+            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828]">
+              Behind the Code
+            </h3>
+            <div className="h-1 w-20 bg-[#ed6094] mx-auto" />
           </motion.div>
 
           {/* Content Card */}
           <motion.div
             variants={itemVariants}
-            className="glass-effect rounded-2xl p-8 md:p-12 hover:shadow-2xl transition-shadow"
-            whileHover={{ y: -5 }}
+            className="bg-white border border-[#e2e2df] rounded-[2.5rem] p-10 md:p-16 shadow-2xl relative overflow-hidden"
           >
-            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
-              I'm a passionate full-stack developer with a strong foundation in modern web technologies. Currently pursuing my B.Tech at{' '}
-              <span className="font-semibold text-purple-600 dark:text-purple-400">CMR College of Engineering</span>, where I've honed my
-              skills in building scalable, user-centric applications.
-            </p>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#ed6094]/5 rounded-bl-full" />
+            <div className="space-y-8 text-xl text-[#282828]/70 leading-relaxed font-sans">
+              <p>
+                I'm a passionate full-stack developer with a strong foundation in modern web technologies. Currently pursuing my B.Tech at{' '}
+                <span className="font-black text-[#282828] underline decoration-[#ed6094] decoration-4">CMR College of Engineering</span>, where I've honed my
+                skills in building scalable, user-centric applications.
+              </p>
 
-            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">
-              My journey in web development started with curiosity about how the web works, and it has evolved into a passion for creating
-              beautiful, functional interfaces and robust backend systems. I love working with React, Next.js, JavaScript, modern
-              development practices and AI tools.
-            </p>
+              <p>
+                My journey in web development evolved into a passion for creating beautiful, functional interfaces and robust backend systems. I love working with <span className="text-[#ed6094] font-black">React, Next.js, and AI-driven development practices</span>.
+              </p>
 
-            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-              When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or sharing knowledge
-              with the developer community. I believe in continuous learning and building projects that make a real impact.
-            </p>
+              <p className="italic font-serif text-[#282828]">
+                "I believe in continuous learning and building projects that make a real impact. Whether it's crafting pixel-perfect UIs or optimizing backend performance, I'm always up for the challenge."
+              </p>
+            </div>
           </motion.div>
 
           {/* Key Points */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: 'Education', desc: 'B.Tech at CMR College of Engineering' },
-              { title: 'Focus', desc: 'Full Stack Web Development And AI Integration' },
-              { title: 'Passion', desc: 'Building scalable web apps' },
+              { title: 'Education', desc: 'B.Tech at CMR College', icon: <GraduationCap className="w-8 h-8 text-[#ed6094]"/> },
+              { title: 'Focus', desc: 'Full Stack & AI', icon: <Target className="w-8 h-8 text-[#b3b4b0]"/> },
+              { title: 'Passion', desc: 'Creative Systems', icon: <Heart className="w-8 h-8 text-[#282828]"/> },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
-                className="glass-effect rounded-xl p-6 text-center hover:shadow-lg transition-shadow"
-                whileHover={{ y: -5, scale: 1.05 }}
+                className="bg-white border border-[#e2e2df] rounded-[1.5rem] p-8 flex flex-col items-center text-center group hover:border-[#ed6094] transition-all duration-300 shadow-sm hover:shadow-xl"
+                whileHover={{ y: -10 }}
               >
-                <h3 className="font-bold text-purple-600 dark:text-purple-400 mb-2">{item.title}</h3>
-                <p className="text-slate-600 dark:text-slate-400 text-sm">{item.desc}</p>
+                <div className="mb-6 p-5 bg-[#f5f3ee] rounded-2xl group-hover:bg-[#ed6094] group-hover:text-white transition-all duration-300">
+                  {item.icon}
+                </div>
+                <h3 className="font-serif font-black text-xl text-[#282828] mb-3">{item.title}</h3>
+                <p className="text-[#b3b4b0] text-sm font-black uppercase tracking-widest">{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>

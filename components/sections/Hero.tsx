@@ -3,10 +3,10 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Tilt from '@/components/Tilt';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 const Hero = () => {
-  const roles = ['Full Stack Developer', 'AI Engineer'];
+  const roles = ['Full Stack Developer', 'AI Engineer', 'Creative Designer'];
   const [displayedText, setDisplayedText] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -18,19 +18,16 @@ const Hero = () => {
     if (!isDeleting && displayedText !== currentText) {
       timeout = setTimeout(() => {
         setDisplayedText(currentText.slice(0, displayedText.length + 1));
-      }, isDeleting ? 50 : 100);
-    }
-    else if (!isDeleting && displayedText === currentText) {
+      }, 100);
+    } else if (!isDeleting && displayedText === currentText) {
       timeout = setTimeout(() => {
         setIsDeleting(true);
       }, 1500);
-    }
-    else if (isDeleting && displayedText !== '') {
+    } else if (isDeleting && displayedText !== '') {
       timeout = setTimeout(() => {
         setDisplayedText(currentText.slice(0, displayedText.length - 1));
       }, 50);
-    }
-    else if (isDeleting && displayedText === '') {
+    } else if (isDeleting && displayedText === '') {
       setIsDeleting(false);
       setRoleIndex((prev) => (prev + 1) % roles.length);
     }
@@ -57,128 +54,129 @@ const Hero = () => {
       transition: { duration: 0.8, ease: 'easeOut' },
     },
   };
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto w-full relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left Column - Profile Image with 3D Tilt */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex justify-center md:justify-end"
+            className="flex justify-center md:justify-end order-2 md:order-1"
           >
-            <Tilt max={25} scale={1.05}>
-              <div className="flex justify-center items-center">
+            <Tilt max={15} scale={1.05}>
+              <div className="relative group">
                 {/* Glowing border */}
-                <div className="absolute inset-0bg-slate-300 dark:bg-slate-700 rounded-3xl opacity-75 blur-2xl" />
+                <div className="absolute -inset-2 bg-[#ed6094] rounded-[2rem] blur-2xl opacity-10 group-hover:opacity-30 transition duration-1000 group-hover:duration-200" />
 
                 {/* Inner circle with profile */}
-                <div className="relative bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded-3xl p-1 h-full flex items-center justify-center overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-800 dark:to-slate-700 rounded-3xl flex items-center justify-center text-center">
+                <div className="relative bg-white rounded-[2rem] p-4 shadow-2xl border border-[#e2e2df] overflow-hidden">
+                  <div className="aspect-square w-full max-w-[350px] bg-[#f5f3ee] rounded-[1.5rem] flex items-center justify-center text-center overflow-hidden">
                     <img
                       src="/profile.jpeg"
                       alt="Sharfa Nusrath"
-                      width={350}
-                      height={350}
-                      className="object-cover object-top rounded-3xl"
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                     />
                   </div>
                 </div>
 
-                {/* Floating accent elements */}
+                {/* Floating tags */}
                 <motion.div
-                  className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full  opacity-50"
-                  animate={{ y: [0, -10, 0] }}
+                  className="absolute -top-8 -right-8 px-6 py-3 bg-[#282828] text-white rounded-full shadow-2xl z-20"
+                  animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 4, repeat: Infinity }}
-                />
+                >
+                  <span className="text-xs font-black uppercase tracking-widest">Innovation</span>
+                </motion.div>
+                
                 <motion.div
-                  className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-tr from-pink-400 to-purple-500 rounded-full opacity-40"
-                  animate={{ y: [0, 10, 0] }}
+                  className="absolute -bottom-8 -left-8 px-6 py-3 bg-[#ed6094] text-white rounded-full shadow-2xl z-20"
+                  animate={{ y: [0, 15, 0] }}
                   transition={{ duration: 5, repeat: Infinity }}
-                />
+                >
+                  <span className="text-xs font-black uppercase tracking-widest">High Contrast</span>
+                </motion.div>
               </div>
             </Tilt>
           </motion.div>
 
           {/* Right Column - Text Content */}
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col justify-center gap-6">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col justify-center gap-8 order-1 md:order-2">
             {/* Greeting */}
-            <motion.div variants={itemVariants} className="flex items-center gap-2">
-              <div className="h-1 w-12 bg-gradient-primary rounded-full" />
-              <span className="text-base md:text-lg font-medium text-slate-600 dark:text-slate-400">Welcome to my portfolio</span>
+            <motion.div variants={itemVariants} className="flex items-center gap-3">
+              <div className="w-12 h-[2px] bg-[#ed6094]" />
+              <span className="text-xs font-black uppercase tracking-[0.3em] text-[#ed6094]">Available for Projects</span>
             </motion.div>
 
             {/* Name */}
             <motion.div variants={itemVariants}>
-              <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white leading-tight">
-                Hello, I'm{' '}
-                <span className="gradient-primary bg-clip-text text-transparent">Sharfa Nusrath</span>
+              <h1 className="text-5xl md:text-8xl font-serif font-black text-[#282828] leading-[1.05] tracking-tight">
+                I'm <span className="text-[#ed6094]">Sharfa Nusrath</span>
               </h1>
             </motion.div>
 
             {/* Typing Text */}
-            <motion.div variants={itemVariants} className="min-h-16">
-              <p className="text-2xl md:text-3xl font-semibold text-slate-700 dark:text-slate-300">
-                {displayedText}
+            <motion.div variants={itemVariants} className="min-h-12 overflow-hidden">
+              <p className="text-xl md:text-2xl font-medium text-[#b3b4b0] font-sans italic">
+                A skilled <span className="text-[#282828] font-bold not-italic">{displayedText}</span>
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.5, repeat: Infinity }}
-                  className="text-2xl md:text-3xl text-purple-600"
-                >
-                  |
-                </motion.span>
+                  className="inline-block ml-1 h-6 w-1 bg-[#ed6094] align-middle"
+                />
               </p>
             </motion.div>
 
             {/* Subtitle */}
-            <motion.p variants={itemVariants} className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-              B.Tech student at CMR College of Engineering building beautiful, scalable web experiences. Passionate about modern web
-              technologies and creative problem-solving.
+            <motion.p variants={itemVariants} className="text-lg text-[#282828]/70 leading-relaxed max-w-lg font-sans">
+              B.Tech student at CMR College of Engineering crafting <span className="text-[#282828] font-bold">high-performance</span>, visually stunning web experiences with Next.js and AI integrations.
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="flex gap-4 flex-wrap">
+            <motion.div variants={itemVariants} className="flex gap-4 flex-wrap mt-2">
               <motion.a
                 href="#projects"
-                whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(168, 85, 247, 0.3)' }}
+                whileHover={{ scale: 1.05, backgroundColor: '#d5467c' }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-full hover:shadow-lg transition-shadow"
+                className="px-10 py-5 bg-[#ed6094] text-white font-black rounded-full shadow-xl shadow-[#ed6094]/30 flex items-center gap-2 transition-all uppercase tracking-widest text-xs"
               >
-                View Projects
-                <ArrowRight size={20} />
+                View Portfolio
+                <ArrowRight size={16} strokeWidth={3} />
               </motion.a>
 
               <motion.a
                 href="#contact"
-                whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(168, 85, 247, 0.2)' }}
+                whileHover={{ scale: 1.05, backgroundColor: '#f5f3ee', borderColor: '#ed6094' }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-8 py-3 glass-effect text-slate-900 dark:text-white font-semibold rounded-full"
+                className="px-10 py-5 bg-white text-[#282828] font-black rounded-full border-2 border-[#282828] shadow-sm flex items-center gap-2 transition-all uppercase tracking-widest text-xs"
               >
-                Contact Me
-                <ArrowRight size={20} />
+                Hire Me
               </motion.a>
             </motion.div>
 
             {/* Social Icons */}
-            <motion.div variants={itemVariants} className="flex gap-4 pt-4">
+            <motion.div variants={itemVariants} className="flex gap-8 pt-6">
               <motion.a
                 href="https://github.com/sharfanusrath-bit"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.2, y: -5 }}
-                className="w-12 h-12 rounded-full glass-effect flex items-center justify-center text-xl hover:text-purple-600"
+                whileHover={{ y: -5, color: '#ed6094' }}
+                className="text-[#282828]/40 transition-all"
+                aria-label="GitHub"
               >
-                <FaGithub size={22} />
+                <FaGithub size={32} />
               </motion.a>
               <motion.a
                 href="https://www.linkedin.com/in/sharfa-nusrath-026600378/"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.2, y: -5 }}
-                className="w-12 h-12 rounded-full glass-effect flex items-center justify-center text-xl hover:text-blue-600"
+                whileHover={{ y: -5, color: '#ed6094' }}
+                className="text-[#282828]/40 transition-all"
+                aria-label="LinkedIn"
               >
-                <FaLinkedin size={22} />
+                <FaLinkedin size={32} />
               </motion.a>
             </motion.div>
           </motion.div>
@@ -187,5 +185,6 @@ const Hero = () => {
     </section>
   );
 };
+
 
 export default Hero;

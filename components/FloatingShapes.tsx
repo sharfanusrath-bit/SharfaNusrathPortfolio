@@ -4,56 +4,40 @@ import { motion } from 'framer-motion';
 
 const FloatingShapes = () => {
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden">
-      {/* Gradient background */}
-      <div className="absolute inset-0 gradient-background" />
+    <div className="fixed inset-0 -z-10 overflow-hidden bg-[#f5f3ee]">
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#b3b4b010_1px,transparent_1px),linear-gradient(to_bottom,#b3b4b010_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
-      {/* Floating spheres */}
+      {/* Floating spheres - matching the brand palette */}
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-blue-300/30 rounded-full blur-3xl"
+        className="absolute top-20 left-10 w-96 h-96 bg-[#ed6094]/5 rounded-full blur-[100px]"
+        animate={{
+          y: [0, -50, 0],
+          x: [0, 40, 0],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      <motion.div
+        className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-[#f6e1d6]/20 rounded-full blur-[120px]"
+        animate={{
+          y: [0, 60, 0],
+          x: [0, -40, 0],
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+      />
+
+      <motion.div
+        className="absolute -bottom-32 left-1/4 w-[600px] h-[600px] bg-[#b3b4b0]/5 rounded-full blur-[100px]"
         animate={{
           y: [0, -30, 0],
-          x: [0, 20, 0],
+          x: [0, 50, 0],
         }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
       />
 
-      <motion.div
-        className="absolute top-40 right-20 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl"
-        animate={{
-          y: [0, 30, 0],
-          x: [0, -20, 0],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-      />
-
-      <motion.div
-        className="absolute -bottom-32 left-1/2 w-96 h-96 bg-pink-300/20 rounded-full blur-3xl"
-        animate={{
-          y: [0, -20, 0],
-          x: [0, 30, 0],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-      />
-
-      {/* Accent orbs */}
-      <motion.div
-        className="absolute top-1/3 right-1/4 w-48 h-48 bg-indigo-300/15 rounded-full blur-2xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.5, 0.8, 0.5],
-        }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      <motion.div
-        className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-cyan-300/15 rounded-full blur-2xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.3, 0.6, 0.3],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-      />
+      {/* Accent elements */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
     </div>
   );
 };

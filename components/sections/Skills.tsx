@@ -4,6 +4,7 @@ import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import Tilt from '@/components/Tilt';
+import { Code2, Server, Wrench, Cpu } from 'lucide-react';
 
 const Skills = () => {
   const ref = useRef(null);
@@ -11,19 +12,19 @@ const Skills = () => {
 
   const skillCategories = [
     {
-      title: 'Frontend',
-      icon: '🎨',
-      skills: ['HTML','CSS', 'React', 'Next.js', 'JavaScript', 'Tailwind CSS', ],
+      title: 'Frontend Development',
+      icon: <Code2 className="w-10 h-10 text-[#ed6094]" />,
+      skills: ['HTML', 'CSS', 'React', 'Next.js', 'JavaScript', 'Tailwind CSS'],
     },
     {
-      title: 'Backend',
-      icon: '⚙️',
-      skills: ['Node.js', 'Django', 'MongoDB', ],
+      title: 'Backend & Database',
+      icon: <Server className="w-10 h-10 text-[#b3b4b0]" />,
+      skills: ['Node.js', 'Django', 'MongoDB', 'PostgreSQL'],
     },
     {
-      title: 'Tools & Others',
-      icon: '🛠️',
-      skills: ['Git', 'AntiGravity', 'VS Code', 'Lovable', 'Vercel','AI & ML'],
+      title: 'AI & Engineering Tools',
+      icon: <Cpu className="w-10 h-10 text-[#282828]" />,
+      skills: ['Git', 'VS Code', 'Vercel', 'AI Integration', 'Prompt Eng.'],
     },
   ];
 
@@ -51,60 +52,51 @@ const Skills = () => {
     <section
       id="skills"
       ref={ref}
-      className="py-20 px-4 sm:px-6 lg:px-8 relative"
+      className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="space-y-12"
+          className="space-y-16"
         >
           {/* Section Header */}
-          <motion.div variants={cardVariants} className="flex items-center gap-4">
-            <div className="h-1 w-16 bg-gradient-primary rounded-full" />
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">My Skills</h2>
+          <motion.div variants={cardVariants} className="text-center space-y-4">
+            <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase mb-4">Expertise</h2>
+            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828] tracking-tight">
+              Technical Proficiency
+            </h3>
+            <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
           </motion.div>
 
           {/* Skills Grid */}
-          <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {skillCategories.map((category, catIdx) => (
-              <Tilt key={catIdx} max={15} scale={1.03}>
+              <Tilt key={catIdx} max={10} scale={1.02}>
                 <motion.div variants={cardVariants} className="h-full">
-                  <div className="glass-effect rounded-2xl p-8 h-full flex flex-col hover:shadow-2xl transition-all group">
-                    {/* Category Icon */}
-                    <motion.div
-                      className="text-5xl mb-4 inline-block"
-                      whileHover={{ scale: 1.2, rotate: 10 }}
-                      transition={{ type: 'spring', stiffness: 300 }}
-                    >
+                  <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 h-full flex flex-col group relative overflow-hidden shadow-sm hover:shadow-xl hover:border-[#ed6094]/30 transition-all duration-500">
+                    {/* Icon */}
+                    <div className="mb-8 p-5 bg-[#f5f3ee] rounded-2xl w-fit group-hover:bg-[#ed6094] group-hover:text-white transition-all duration-500">
                       {category.icon}
-                    </motion.div>
+                    </div>
 
-                    {/* Category Title */}
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                    {/* Title */}
+                    <h3 className="text-2xl font-serif font-bold text-[#282828] mb-8 group-hover:text-[#ed6094] transition-colors">
                       {category.title}
                     </h3>
 
                     {/* Skills List */}
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3 mt-auto">
                       {category.skills.map((skill, idx) => (
-                        <motion.span
+                        <span
                           key={idx}
-                          className="px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-purple-300/30 dark:border-purple-500/30 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-purple-500 dark:hover:border-purple-400 transition-colors"
-                          whileHover={{ scale: 1.1, y: -2 }}
+                          className="px-5 py-2 bg-[#f5f3ee] border border-[#e2e2df] rounded-full text-xs font-black uppercase tracking-widest text-[#282828]/60 hover:border-[#ed6094] hover:text-[#ed6094] transition-all cursor-default"
                         >
                           {skill}
-                        </motion.span>
+                        </span>
                       ))}
                     </div>
-
-                    {/* Hover gradient line */}
-                    <motion.div
-                      className="mt-6 h-1 w-0 bg-gradient-primary rounded-full"
-                      whileHover={{ width: '100%' }}
-                      transition={{ duration: 0.3 }}
-                    />
                   </div>
                 </motion.div>
               </Tilt>

@@ -1,140 +1,99 @@
 'use client';
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
 
 const Footer = () => {
   const socialLinks = [
-    { icon: <FaGithub size={22} />, label: 'GitHub', href: 'https://github.com/sharfanusrath-bit', color: 'hover:text-slate-700 dark:hover:text-slate-300' },
-    { icon: <FaLinkedin size={22} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/sharfa-nusrath-026600378/', color: 'hover:text-blue-600' },
+    { icon: <FaGithub size={24} />, label: 'GitHub', href: 'https://github.com/sharfanusrath-bit', color: 'hover:text-[#ed6094]' },
+    { icon: <FaLinkedin size={24} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/sharfa-nusrath-026600378/', color: 'hover:text-[#ed6094]' },
   ];
 
   const currentYear = new Date().getFullYear();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: 'easeOut' },
-    },
-  };
-
   return (
-    <footer className="relative pt-20 pb-8 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-          className="space-y-8"
-        >
-          {/* Main Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Brand Column */}
-            <motion.div variants={itemVariants} className="space-y-4">
-              <h3 className="text-2xl font-bold gradient-primary bg-clip-text text-transparent">SN</h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                Building beautiful web experiences with modern technologies. Full-stack developer passionate about creating scalable
-                solutions.
-              </p>
-            </motion.div>
-
-            {/* Quick Links */}
-            <motion.div variants={itemVariants} className="space-y-4">
-              <h4 className="font-bold text-slate-900 dark:text-white">Quick Links</h4>
-              <ul className="space-y-2">
-                {['Home', 'About', 'Projects', 'Contact'].map((link, idx) => (
-                  <li key={idx}>
-                    <motion.a
-                      href={`#${link.toLowerCase()}`}
-                      className="text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors text-sm"
-                      whileHover={{ x: 5 }}
-                    >
-                      {link}
-                    </motion.a>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div variants={itemVariants} className="space-y-4">
-              <h4 className="font-bold text-slate-900 dark:text-white">Follow Me</h4>
-              <div className="flex gap-3">
-                {socialLinks.map((social, idx) => (
-                  <motion.a
-                    key={idx}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`w-10 h-10 rounded-full glass-effect flex items-center justify-center text-lg ${social.color} transition-colors`}
-                    whileHover={{ scale: 1.2, y: -3 }}
-                    whileTap={{ scale: 0.95 }}
-                    title={social.label}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Divider */}
-          <motion.div
-            variants={itemVariants}
-            className="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"
-          />
-
-          {/* Copyright & Attribution */}
-          <motion.div variants={itemVariants} className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-            <p>
-              © {currentYear} Sharfa Nusrath. All rights reserved. Built with React, Next.js & Tailwind CSS.
+    <footer className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8 bg-[#282828] text-white overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-[#ed6094]/10 rounded-bl-full blur-3xl" />
+      
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
+          {/* Brand Column */}
+          <div className="md:col-span-2 space-y-8">
+            <h3 className="text-4xl font-serif font-black flex items-center gap-2">
+              SHARFA<span className="text-[#ed6094]">.</span>
+            </h3>
+            <p className="text-[#b3b4b0] text-lg leading-relaxed max-w-md font-sans">
+              B.Tech student at CMR College of Engineering crafting high-performance, visually stunning web experiences with Next.js and AI integrations.
             </p>
             <div className="flex gap-6">
-              <motion.a
-                href="#"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors"
-                whileHover={{ underline: true }}
-              >
-                Privacy
-              </motion.a>
-              <motion.a
-                href="#"
-                className="hover:text-slate-900 dark:hover:text-white transition-colors"
-                whileHover={{ underline: true }}
-              >
-                Terms
-              </motion.a>
+              {socialLinks.map((social, idx) => (
+                <motion.a
+                  key={idx}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-white/40 ${social.color} transition-colors p-2 border border-white/10 rounded-xl hover:border-[#ed6094]`}
+                  whileHover={{ y: -5 }}
+                  title={social.label}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Scroll to Top Button */}
+          {/* Quick Links */}
+          <div className="space-y-8">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#ed6094]">Navigation</h4>
+            <ul className="space-y-4">
+              {['Home', 'About', 'Skills', 'Projects', 'Certificates'].map((link, idx) => (
+                <li key={idx}>
+                  <a
+                    href={`#${link.toLowerCase()}`}
+                    className="text-[#b3b4b0] hover:text-white transition-colors text-base font-sans"
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Intro */}
+          <div className="space-y-8">
+            <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-[#ed6094]">Connect</h4>
+            <div className="space-y-4">
+              <p className="text-[#b3b4b0] text-sm">Have a project in mind?</p>
+              <a href="mailto:sharfanusrath@gmail.com" className="block text-xl font-serif hover:text-[#ed6094] transition-colors">
+                sharfanusrath@gmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="h-[1px] bg-white/10 w-full mb-12" />
+
+        {/* Copyright & Attribution */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          <p className="text-[#b3b4b0] text-xs font-black uppercase tracking-[0.2em] text-center md:text-left">
+            © {currentYear} Sharfa Nusrath. All rights reserved.
+          </p>
+          
           <motion.button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            variants={itemVariants}
-            whileHover={{ scale: 1.1, y: -5 }}
+            whileHover={{ scale: 1.1, backgroundColor: '#ed6094' }}
             whileTap={{ scale: 0.95 }}
-            className="mx-auto w-12 h-12 rounded-full glass-effect flex items-center justify-center text-xl hover:shadow-lg transition-shadow"
+            className="w-16 h-16 rounded-full border-2 border-[#ed6094] flex items-center justify-center text-[#ed6094] hover:text-white transition-all shadow-2xl"
             title="Back to top"
           >
-            ↑
+            <ArrowUp size={24} strokeWidth={3} />
           </motion.button>
-        </motion.div>
+        </div>
       </div>
     </footer>
   );
 };
 
 export default Footer;
+

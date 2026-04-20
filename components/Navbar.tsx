@@ -1,17 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -21,6 +23,7 @@ const Navbar = () => {
     { href: '#skills', label: 'Skills' },
     { href: '#projects', label: 'Projects' },
     { href: '#experience', label: 'Experience' },
+    { href: '#certificates', label: 'Certificates' },
     { href: '#contact', label: 'Contact' },
   ];
 
@@ -28,53 +31,80 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'glass-effect bg-slate-900/20 backdrop-blur-lg border-b border-white/10' : 'bg-transparent'
-        }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        isScrolled 
+          ? 'py-4 bg-[#f5f3ee]/90 backdrop-blur-xl border-b border-[#e2e2df] shadow-sm' 
+          : 'py-8 bg-transparent'
+      }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold gradient-primary bg-clip-text text-transparent"
-          >
-            SN
-          </motion.div>
+      <div className="max-w-7xl mx-auto px-10 flex justify-between items-center">
+        {/* Logo */}
+        <motion.a
+          href="#home"
+          whileHover={{ scale: 1.05 }}
+          className="text-2xl font-serif text-[#282828] flex items-center gap-2 group"
+        >
+          <div className="w-10 h-10 bg-[#ed6094] rounded-full flex items-center justify-center text-white text-sm font-black shadow-lg shadow-[#ed6094]/30 group-hover:rotate-12 transition-transform">SN</div>
+          <span className="font-black tracking-tighter">SHARFA<span className="text-[#ed6094]">.</span></span>
+        </motion.a>
 
-          {/* Nav Links */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link, idx) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="relative text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
-                whileHover={{ scale: 1.1 }}
-              >
-                {link.label}
-                <motion.div
-                  className="absolute -bottom-1 left-0 h-0.5 bg-gradient-primary w-0 group-hover:w-full"
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.a>
-            ))}
-          </div>
-
-          {/* CTA Button */}
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex items-center gap-12">
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-xs font-black uppercase tracking-[0.2em] text-[#282828]/60 hover:text-[#ed6094] transition-all relative group"
+            >
+              {link.label}
+              <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#ed6094] transition-all group-hover:w-full" />
+            </a>
+          ))}
           <motion.a
             href="#contact"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, backgroundColor: '#282828' }}
             whileTap={{ scale: 0.95 }}
-            className="hidden sm:block px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-purple-500/50 transition-shadow"
+            className="px-8 py-3 bg-[#ed6094] text-white text-xs font-black uppercase tracking-widest rounded-full shadow-lg shadow-[#ed6094]/30 transition-all"
           >
-            Get in Touch
+            Connect
           </motion.a>
         </div>
+
+        {/* Mobile menu button */}
+        <div className="md:hidden">
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 text-[#282828] hover:bg-[#ed6094]/10 rounded-lg"
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: -20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
+            className="md:hidden bg-[#f5f3ee] border-b border-[#e2e2df] shadow-2xl overflow-hidden"
+          >
+            <div className="px-10 py-12 flex flex-col gap-8">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-3xl font-serif font-black text-[#282828] hover:text-[#ed6094] transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };

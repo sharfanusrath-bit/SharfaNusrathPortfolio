@@ -3,7 +3,8 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { Mail, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight, MapPin, MessageSquare } from 'lucide-react';
+
 const Contact = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -27,7 +28,6 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // This is your actual Formspree ID!
     const FORMSPREE_ID = "xpqynqeg"; 
     
     try {
@@ -79,73 +79,51 @@ const Contact = () => {
     <section
       id="contact"
       ref={ref}
-      className="py-20 px-4 sm:px-6 lg:px-8 relative"
+      className="py-32 px-4 sm:px-6 lg:px-8 relative bg-transparent"
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="space-y-12"
+          className="space-y-24"
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="flex items-center gap-4">
-            <div className="h-1 w-16 bg-gradient-primary rounded-full" />
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">Get In Touch</h2>
-          </motion.div>
+          <div className="space-y-6 text-center">
+            <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">Let's Connect</h2>
+            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828] tracking-tight">
+              Get In Touch
+            </h3>
+            <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
+          </div>
 
-          {/* Intro Text */}
-          <motion.p variants={itemVariants} className="text-lg text-slate-600 dark:text-slate-400 text-center max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? I'd love to hear from you! Drop me a message and I'll get back to you as soon
-            as possible.
-          </motion.p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Info */}
-            <motion.div variants={itemVariants} className="space-y-6">
-              <div className="glass-effect rounded-2xl p-8 hover:shadow-xl transition-shadow">
-                <motion.div
-                  className="flex items-start gap-4"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white flex-shrink-0 mt-1">
-                    <Mail size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Email</h3>
-                    <p className="text-slate-600 dark:text-slate-400">sharfanusrath@gmail.com</p>
-                  </div>
-                </motion.div>
-              </div>
+            <motion.div variants={itemVariants} className="space-y-8">
+              <p className="text-xl text-[#282828]/70 font-sans leading-relaxed">
+                Have a project in mind or want to collaborate? I'd love to hear from you! Drop me a message and I'll get back to you as soon as possible.
+              </p>
 
-              <div className="glass-effect rounded-2xl p-8 hover:shadow-xl transition-shadow">
-                <motion.div
-                  className="flex items-start gap-4"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white flex-shrink-0 mt-1">
-                    📍
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Location</h3>
-                    <p className="text-slate-600 dark:text-slate-400">Hyderabad, India</p>
-                  </div>
-                </motion.div>
-              </div>
-
-              <div className="glass-effect rounded-2xl p-8 hover:shadow-xl transition-shadow">
-                <motion.div
-                  className="flex items-start gap-4"
-                  whileHover={{ x: 5 }}
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white flex-shrink-0 mt-1">
-                    💬
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">Availability</h3>
-                    <p className="text-slate-600 dark:text-slate-400">Available for projects</p>
-                  </div>
-                </motion.div>
+              <div className="space-y-6">
+                {[
+                  { title: 'Email', value: 'sharfanusrath@gmail.com', icon: Mail, color: '#ed6094' },
+                  { title: 'Location', value: 'Hyderabad, India', icon: MapPin, color: '#b3b4b0' },
+                  { title: 'Availability', value: 'Available for projects', icon: MessageSquare, color: '#282828' },
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="bg-white border border-[#e2e2df] rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-6 group"
+                    whileHover={{ x: 10 }}
+                  >
+                    <div className="w-14 h-14 rounded-2xl bg-[#f5f3ee] flex items-center justify-center text-[#ed6094] group-hover:bg-[#ed6094] group-hover:text-white transition-colors">
+                      <item.icon size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black uppercase tracking-widest text-[#282828]/40 mb-1">{item.title}</h4>
+                      <p className="text-lg font-serif font-black text-[#282828]">{item.value}</p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
 
@@ -153,71 +131,69 @@ const Contact = () => {
             <motion.form
               variants={itemVariants}
               onSubmit={handleSubmit}
-              className="glass-effect rounded-2xl p-8 hover:shadow-xl transition-shadow"
+              className="bg-white border border-[#e2e2df] rounded-[2.5rem] p-10 md:p-14 shadow-2xl relative overflow-hidden"
             >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#ed6094]/5 rounded-bl-full" />
+              
               {submitSuccess && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-700 dark:text-green-400 text-sm font-semibold"
+                  className="mb-8 p-6 bg-green-50 text-green-700 border border-green-200 rounded-2xl text-sm font-black uppercase tracking-widest text-center"
                 >
-                  ✓ Message sent successfully! I'll get back to you soon.
+                  ✓ Message sent successfully!
                 </motion.div>
               )}
 
-              <div className="space-y-5">
-                {/* Name Input */}
-                <motion.div whileHover={{ scale: 1.01 }}>
-                  <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Name</label>
+              <div className="space-y-8">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-[#282828]/40 mb-4">Your Name</label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    placeholder="Your name"
-                    className="w-full bg-white/10 dark:bg-slate-800/20 border border-white/20 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
+                    className="w-full bg-[#f5f3ee]/50 border-b-2 border-[#e2e2df] px-0 py-4 text-[#282828] placeholder-[#282828]/20 focus:outline-none focus:border-[#ed6094] transition-all font-serif text-xl"
+                    placeholder="Enter your name..."
                   />
-                </motion.div>
+                </div>
 
-                {/* Email Input */}
-                <motion.div whileHover={{ scale: 1.01 }}>
-                  <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Email</label>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-[#282828]/40 mb-4">Email Address</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    className="w-full bg-[#f5f3ee]/50 border-b-2 border-[#e2e2df] px-0 py-4 text-[#282828] placeholder-[#282828]/20 focus:outline-none focus:border-[#ed6094] transition-all font-serif text-xl"
                     placeholder="your@email.com"
-                    className="w-full bg-white/10 dark:bg-slate-800/20 border border-white/20 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
                   />
-                </motion.div>
+                </div>
 
-                {/* Message Input */}
-                <motion.div whileHover={{ scale: 1.01 }}>
-                  <label className="block text-sm font-semibold text-slate-900 dark:text-white mb-2">Message</label>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-[#282828]/40 mb-4">How can I help?</label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     required
                     rows={4}
-                    placeholder="Your message..."
-                    className="w-full bg-white/10 dark:bg-slate-800/20 border border-white/20 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
+                    className="w-full bg-[#f5f3ee]/50 border-b-2 border-[#e2e2df] px-0 py-4 text-[#282828] placeholder-[#282828]/20 focus:outline-none focus:border-[#ed6094] transition-all font-serif text-xl resize-none"
+                    placeholder="Tell me about your project..."
                   />
-                </motion.div>
+                </div>
 
-                {/* Submit Button */}
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.02, backgroundColor: '#282828' }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-purple-500/50 transition-shadow disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full py-6 bg-[#ed6094] text-white font-black uppercase tracking-[0.3em] text-xs rounded-full shadow-2xl shadow-[#ed6094]/30 transition-all flex items-center justify-center gap-3"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
-                  <ArrowRight size={18} />
+                  <ArrowRight size={18} strokeWidth={3} />
                 </motion.button>
               </div>
             </motion.form>
@@ -229,3 +205,4 @@ const Contact = () => {
 };
 
 export default Contact;
+
