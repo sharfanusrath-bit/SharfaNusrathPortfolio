@@ -31,11 +31,10 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'py-4 bg-[#f5f3ee]/90 backdrop-blur-xl border-b border-[#e2e2df] shadow-sm' 
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled
+          ? 'py-4 bg-[#f5f3ee]/90 backdrop-blur-xl border-b border-[#e2e2df] shadow-sm'
           : 'py-8 bg-transparent'
-      }`}
+        }`}
     >
       <div className="max-w-7xl mx-auto px-10 flex justify-between items-center">
         {/* Logo */}
@@ -45,7 +44,7 @@ const Navbar = () => {
           className="text-2xl font-serif text-[#282828] flex items-center gap-2 group"
         >
           <div className="w-10 h-10 bg-[#ed6094] rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-[#ed6094]/30 group-hover:rotate-12 transition-transform">SN</div>
-          <span className="font-bold tracking-tighter">SHARFA<span className="text-[#ed6094]">.</span></span>
+          <span className="font-bold tracking-tighter"><span className="text-[#ed6094]">.</span></span>
         </motion.a>
 
         {/* Desktop Nav Links */}
@@ -72,7 +71,7 @@ const Navbar = () => {
 
         {/* Mobile menu button */}
         <div className="md:hidden">
-          <button 
+          <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 text-[#282828] hover:bg-[#ed6094]/10 rounded-lg"
           >

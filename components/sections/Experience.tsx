@@ -11,25 +11,25 @@ const Experience = () => {
 
   const timeline = [
     {
-      year: '2024-Present',
-      title: 'B.Tech in CSE',
-      company: 'CMR College of Engineering',
-      description: 'Pursuing Bachelor of Technology in Computer Science and Engineering. Focusing on advanced algorithms, distributed systems, and modern web architecture.',
-      icon: GraduationCap,
-    },
-    {
-      year: '2022-2024',
+      year: '2026(feb)-present',
       title: 'Internship',
-      company: 'Tech Solutions',
-      description: 'Worked on developing scalable web applications and contributed to open-source projects.',
+      company: 'EvoveX',
+      description: 'Working on developing scalable web applications and contributed to open-source projects.',
       icon: Briefcase,
     },
     {
-      year: '2020-2022',
-      title: 'High School',
-      company: 'ABC High School',
-      description: 'Excelled in mathematics and computer science, participated in coding competitions.',
-      icon: BookOpen,
+      year: '2026',
+      title: 'Internship',
+      company: '1stop.ai',
+      description: 'Worked on AI projects that helped me truly to understand the real world',
+      icon: Briefcase,
+    },
+    {
+      year: '2024-Present',
+      title: 'B.Tech in CSE',
+      company: 'CMR College of Engineering',
+      description: 'Pursuing Bachelor of Technology in Computer Science and Engineering. Focusing on advanced algorithms,and modern web architecture.',
+      icon: GraduationCap,
     },
   ];
 
@@ -73,7 +73,7 @@ const Experience = () => {
           {/* Timeline Wrapper */}
           <div className="relative space-y-12">
             {/* Central Line */}
-            <motion.div 
+            <motion.div
               className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-[#e2e2df] transform md:-translate-x-1/2"
               initial={{ height: 0 }}
               animate={isInView ? { height: '100%' } : { height: 0 }}
@@ -84,16 +84,15 @@ const Experience = () => {
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className={`relative flex items-center gap-8 md:gap-0 ${
-                  idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
+                className={`relative flex items-center gap-8 md:gap-0 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
               >
                 {/* Content Card Side */}
                 <div className="md:w-1/2">
                   <div className={`pl-12 md:pl-0 ${idx % 2 === 0 ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}>
                     <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 hover:border-[#ed6094]/30 hover:shadow-2xl transition-all duration-500 shadow-sm relative group">
                       <div className="absolute top-0 right-0 w-24 h-24 bg-[#ed6094]/5 rounded-bl-full group-hover:bg-[#ed6094]/10 transition-colors" />
-                      
+
                       <span className="inline-block px-4 py-1 bg-[#f5f3ee] text-[#ed6094] text-[10px] font-bold uppercase tracking-widest rounded-full mb-6">
                         {item.year}
                       </span>

@@ -73,12 +73,12 @@ const Projects = () => {
             {projects.map((project, idx) => (
               <motion.div key={idx} variants={cardVariants} className="h-full">
                 <div className="bg-white rounded-[2.5rem] overflow-hidden h-full flex flex-col group border border-[#e2e2df] hover:shadow-2xl transition-all duration-500 relative">
-                  
+
                   {/* Image Container */}
                   <div className="h-80 relative overflow-hidden bg-[#f5f3ee]">
                     <div className="absolute inset-0 bg-[#282828]/10 group-hover:bg-transparent transition-colors z-10" />
                     {project.image}
-                    
+
                     {/* Floating Tech Badges */}
                     <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-2 z-20">
                       {project.technologies.slice(0, 3).map((tech, tIdx) => (
@@ -110,7 +110,7 @@ const Projects = () => {
                         <Github size={18} />
                         Repository
                       </motion.a>
-                      
+
                       {project.livelink && (
                         <motion.a
                           href={project.livelink}

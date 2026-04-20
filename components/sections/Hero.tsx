@@ -88,7 +88,7 @@ const Hero = () => {
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 4, repeat: Infinity }}
                 >
-                  <span className="text-[10px] font-black uppercase tracking-widest">Innovation</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Development</span>
                 </motion.div>
 
                 <motion.div
@@ -96,7 +96,7 @@ const Hero = () => {
                   animate={{ y: [0, 15, 0] }}
                   transition={{ duration: 5, repeat: Infinity }}
                 >
-                  <span className="text-[10px] font-black uppercase tracking-widest">Aesthetics</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Creativity</span>
                 </motion.div>
               </div>
             </Tilt>
