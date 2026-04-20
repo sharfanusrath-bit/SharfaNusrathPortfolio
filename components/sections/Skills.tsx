@@ -18,7 +18,7 @@ const Skills = () => {
     },
     {
       title: 'Backend & Database',
-      icon: <Server className="w-10 h-10 text-[#b3b4b0]" />,
+      icon: <Server className="w-10 h-10 text-[#ed6094]" />,
       skills: ['Node.js', 'Django', 'MongoDB', 'PostgreSQL'],
     },
     {
@@ -91,7 +91,7 @@ const Skills = () => {
                       {category.skills.map((skill, idx) => (
                         <span
                           key={idx}
-                          className="px-5 py-2 bg-[#f5f3ee] border border-[#e2e2df] rounded-full text-xs font-black uppercase tracking-widest text-[#282828]/60 hover:border-[#ed6094] hover:text-[#ed6094] transition-all cursor-default"
+                          className="px-5 py-2 bg-[#f5f3ee] border border-[#e2e2df] rounded-full text-xs font-black uppercase tracking-widest text-[#282828] hover:border-[#ed6094] hover:text-[#ed6094] transition-all cursor-default"
                         >
                           {skill}
                         </span>

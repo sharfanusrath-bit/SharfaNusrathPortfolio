@@ -54,7 +54,7 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-xs font-black uppercase tracking-[0.2em] text-[#282828]/60 hover:text-[#ed6094] transition-all relative group"
+              className="text-xs font-black uppercase tracking-[0.2em] text-[#282828] hover:text-[#ed6094] transition-all relative group"
             >
               {link.label}
               <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#ed6094] transition-all group-hover:w-full" />

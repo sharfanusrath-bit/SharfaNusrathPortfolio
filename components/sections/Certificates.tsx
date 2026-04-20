@@ -4,18 +4,11 @@ import { ExternalLink, Award, ShieldCheck, GraduationCap } from 'lucide-react';
 
 const certificates = [
   {
-    title: 'LinkedIn Skill Assessments',
-    issuer: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/sharfa-nusrath-026600378/details/featured/',
-    icon: Award,
-    color: '#ed6094',
-  },
-  {
     title: 'Professional Certifications',
     issuer: 'LinkedIn / Various',
     link: 'https://www.linkedin.com/in/sharfa-nusrath-026600378/details/certifications/',
     icon: ShieldCheck,
-    color: '#b3b4b0',
+    color: '#ed6094',
   },
 ];
 
@@ -50,14 +43,14 @@ const Certificates = () => {
               className="group block p-8 bg-white border border-[#e2e2df] rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-[#ed6094]/5 rounded-bl-full group-hover:bg-[#ed6094]/10 transition-colors" />
-              
+
               <div className="flex items-start gap-6">
                 <div className="p-4 bg-[#f5f3ee] text-[#ed6094] rounded-xl group-hover:bg-[#ed6094] group-hover:text-white transition-colors duration-300">
                   <cert.icon size={32} />
                 </div>
                 <div>
                   <h4 className="text-2xl font-serif text-[#282828] mb-2">{cert.title}</h4>
-                  <p className="text-[#b3b4b0] font-medium mb-4">{cert.issuer}</p>
+                  <p className="text-[#282828] font-bold mb-4 opacity-70">{cert.issuer}</p>
                   <div className="flex items-center gap-2 text-[#ed6094] font-bold group-hover:gap-4 transition-all">
                     <span>View on LinkedIn</span>
                     <ExternalLink size={18} />
@@ -79,7 +72,7 @@ const Certificates = () => {
             <GraduationCap size={40} className="text-[#ed6094]" />
             <div>
               <h4 className="text-xl font-serif">Verified Expertise</h4>
-              <p className="text-[#b3b4b0]">Explore technical endorsements and verified skills.</p>
+              <p className="text-[#f5f3ee] opacity-80 uppercase text-[10px] font-black tracking-widest">Explore technical endorsements and verified skills.</p>
             </div>
           </div>
           <a

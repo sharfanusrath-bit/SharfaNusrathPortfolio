@@ -38,23 +38,23 @@ const CustomCursor = () => {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-[#ed6094] rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 w-6 h-6 bg-[#ed6094] rounded-full pointer-events-none z-[9999]"
         animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovering ? 2.5 : 1,
+          x: mousePosition.x - 12,
+          y: mousePosition.y - 12,
+          scale: isHovering ? 2 : 1,
         }}
-        transition={{ type: 'spring', damping: 30, stiffness: 200, mass: 0.5 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 400, mass: 0.1 }}
       />
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-[#ed6094] rounded-full pointer-events-none z-[9998]"
+        className="fixed top-0 left-0 w-12 h-12 border-2 border-[#ed6094]/40 rounded-full pointer-events-none z-[9998]"
         animate={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
+          x: mousePosition.x - 24,
+          y: mousePosition.y - 24,
           scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0 : 0.5,
+          opacity: isHovering ? 0 : 0.8,
         }}
-        transition={{ type: 'spring', damping: 20, stiffness: 100, mass: 0.8 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 250, mass: 0.2 }}
       />
     </>
   );

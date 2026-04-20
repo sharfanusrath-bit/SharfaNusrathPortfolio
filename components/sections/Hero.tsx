@@ -72,31 +72,31 @@ const Hero = () => {
                 <div className="absolute -inset-2 bg-[#ed6094] rounded-[2rem] blur-2xl opacity-10 group-hover:opacity-30 transition duration-1000 group-hover:duration-200" />
 
                 {/* Inner circle with profile */}
-                <div className="relative bg-white rounded-[2rem] p-4 shadow-2xl border border-[#e2e2df] overflow-hidden">
-                  <div className="aspect-square w-full max-w-[350px] bg-[#f5f3ee] rounded-[1.5rem] flex items-center justify-center text-center overflow-hidden">
+                <div className="relative bg-white rounded-[2.5rem] p-6 shadow-2xl border border-[#e2e2df] overflow-hidden">
+                  <div className="aspect-[4/5] w-full max-w-[450px] bg-[#f5f3ee] rounded-[2rem] flex items-center justify-center text-center overflow-hidden">
                     <img
                       src="/profile.jpeg"
                       alt="Sharfa Nusrath"
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                      className="w-full h-full object-cover transition-all duration-700"
                     />
                   </div>
                 </div>
 
                 {/* Floating tags */}
                 <motion.div
-                  className="absolute -top-8 -right-8 px-6 py-3 bg-[#282828] text-white rounded-full shadow-2xl z-20"
+                  className="absolute -top-6 -right-6 px-8 py-4 bg-[#282828] text-white rounded-2xl shadow-2xl z-20"
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 4, repeat: Infinity }}
                 >
-                  <span className="text-xs font-black uppercase tracking-widest">Innovation</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Innovation</span>
                 </motion.div>
-                
+
                 <motion.div
-                  className="absolute -bottom-8 -left-8 px-6 py-3 bg-[#ed6094] text-white rounded-full shadow-2xl z-20"
+                  className="absolute -bottom-6 -left-6 px-8 py-4 bg-[#ed6094] text-white rounded-2xl shadow-2xl z-20"
                   animate={{ y: [0, 15, 0] }}
                   transition={{ duration: 5, repeat: Infinity }}
                 >
-                  <span className="text-xs font-black uppercase tracking-widest">High Contrast</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Aesthetics</span>
                 </motion.div>
               </div>
             </Tilt>
@@ -105,45 +105,45 @@ const Hero = () => {
           {/* Right Column - Text Content */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col justify-center gap-8 order-1 md:order-2">
             {/* Greeting */}
-            <motion.div variants={itemVariants} className="flex items-center gap-3">
-              <div className="w-12 h-[2px] bg-[#ed6094]" />
-              <span className="text-xs font-black uppercase tracking-[0.3em] text-[#ed6094]">Available for Projects</span>
+            <motion.div variants={itemVariants} className="flex items-center gap-4">
+              <div className="w-16 h-[3px] bg-[#ed6094]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#ed6094] scale-y-110">Available for Projects</span>
             </motion.div>
 
             {/* Name */}
             <motion.div variants={itemVariants}>
-              <h1 className="text-5xl md:text-8xl font-serif font-black text-[#282828] leading-[1.05] tracking-tight">
+              <h1 className="text-6xl md:text-[7rem] font-serif font-black text-[#282828] leading-[0.9] tracking-tighter">
                 I'm <span className="text-[#ed6094]">Sharfa Nusrath</span>
               </h1>
             </motion.div>
 
             {/* Typing Text */}
-            <motion.div variants={itemVariants} className="min-h-12 overflow-hidden">
-              <p className="text-xl md:text-2xl font-medium text-[#b3b4b0] font-sans italic">
-                A skilled <span className="text-[#282828] font-bold not-italic">{displayedText}</span>
+            <motion.div variants={itemVariants} className="min-h-12 overflow-hidden py-2">
+              <p className="text-2xl md:text-3xl font-black text-[#282828] font-sans">
+                <span className="border-b-4 border-[#ed6094]">{displayedText}</span>
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.5, repeat: Infinity }}
-                  className="inline-block ml-1 h-6 w-1 bg-[#ed6094] align-middle"
+                  className="inline-block ml-2 h-8 w-1.5 bg-[#ed6094] align-middle"
                 />
               </p>
             </motion.div>
 
             {/* Subtitle */}
-            <motion.p variants={itemVariants} className="text-lg text-[#282828]/70 leading-relaxed max-w-lg font-sans">
-              B.Tech student at CMR College of Engineering crafting <span className="text-[#282828] font-bold">high-performance</span>, visually stunning web experiences with Next.js and AI integrations.
+            <motion.p variants={itemVariants} className="text-xl text-[#282828] leading-relaxed max-w-lg font-sans font-medium opacity-90">
+              B.Tech student at CMR College of Engineering crafting <span className="text-[#ed6094] font-black underline decoration-2 underline-offset-4">high-performance</span>, visually stunning web experiences with Next.js and AI integrations.
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="flex gap-4 flex-wrap mt-2">
+            <motion.div variants={itemVariants} className="flex gap-6 flex-wrap mt-4">
               <motion.a
                 href="#projects"
-                whileHover={{ scale: 1.05, backgroundColor: '#d5467c' }}
+                whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 bg-[#ed6094] text-white font-black rounded-full shadow-xl shadow-[#ed6094]/30 flex items-center gap-2 transition-all uppercase tracking-widest text-xs"
+                className="px-12 py-6 bg-[#ed6094] text-white font-black rounded-full shadow-2xl shadow-[#ed6094]/40 flex items-center gap-3 transition-all uppercase tracking-[0.2em] text-[10px]"
               >
-                View Portfolio
-                <ArrowRight size={16} strokeWidth={3} />
+                View Works
+                <ArrowRight size={18} strokeWidth={4} />
               </motion.a>
 
               <motion.a

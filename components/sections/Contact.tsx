@@ -100,15 +100,15 @@ const Contact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Info */}
             <motion.div variants={itemVariants} className="space-y-8">
-              <p className="text-xl text-[#282828]/70 font-sans leading-relaxed">
+              <p className="text-xl text-[#282828] font-sans leading-relaxed font-medium">
                 Have a project in mind or want to collaborate? I'd love to hear from you! Drop me a message and I'll get back to you as soon as possible.
               </p>
 
               <div className="space-y-6">
                 {[
                   { title: 'Email', value: 'sharfanusrath@gmail.com', icon: Mail, color: '#ed6094' },
-                  { title: 'Location', value: 'Hyderabad, India', icon: MapPin, color: '#b3b4b0' },
-                  { title: 'Availability', value: 'Available for projects', icon: MessageSquare, color: '#282828' },
+                  { title: 'Location', value: 'Hyderabad, India', icon: MapPin, color: '#ed6094' },
+                  { title: 'Availability', value: 'Available for projects', icon: MessageSquare, color: '#ed6094' },
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
@@ -119,7 +119,7 @@ const Contact = () => {
                       <item.icon size={24} />
                     </div>
                     <div>
-                      <h4 className="text-xs font-black uppercase tracking-widest text-[#282828]/40 mb-1">{item.title}</h4>
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-[#282828]/60 mb-1">{item.title}</h4>
                       <p className="text-lg font-serif font-black text-[#282828]">{item.value}</p>
                     </div>
                   </motion.div>

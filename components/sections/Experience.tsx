@@ -99,7 +99,7 @@ const Experience = () => {
                       </span>
                       <h3 className="text-2xl font-serif font-black text-[#282828] mb-2">{item.title}</h3>
                       <p className="text-[#ed6094] font-black uppercase tracking-widest text-[10px] mb-4">{item.company}</p>
-                      <p className="text-[#282828]/60 text-base leading-relaxed font-sans">{item.description}</p>
+                      <p className="text-[#282828] text-base leading-relaxed font-sans font-medium">{item.description}</p>
                     </div>
                   </div>
                 </div>

@@ -57,7 +57,7 @@ const About = () => {
             className="bg-white border border-[#e2e2df] rounded-[2.5rem] p-10 md:p-16 shadow-2xl relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#ed6094]/5 rounded-bl-full" />
-            <div className="space-y-8 text-xl text-[#282828]/70 leading-relaxed font-sans">
+            <div className="space-y-8 text-xl text-[#282828] leading-relaxed font-sans">
               <p>
                 I'm a passionate full-stack developer with a strong foundation in modern web technologies. Currently pursuing my B.Tech at{' '}
                 <span className="font-black text-[#282828] underline decoration-[#ed6094] decoration-4">CMR College of Engineering</span>, where I've honed my
@@ -78,8 +78,8 @@ const About = () => {
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { title: 'Education', desc: 'B.Tech at CMR College', icon: <GraduationCap className="w-8 h-8 text-[#ed6094]"/> },
-              { title: 'Focus', desc: 'Full Stack & AI', icon: <Target className="w-8 h-8 text-[#b3b4b0]"/> },
-              { title: 'Passion', desc: 'Creative Systems', icon: <Heart className="w-8 h-8 text-[#282828]"/> },
+              { title: 'Focus', desc: 'Full Stack & AI', icon: <Target className="w-8 h-8 text-[#ed6094]"/> },
+              { title: 'Passion', desc: 'Creative Systems', icon: <Heart className="w-8 h-8 text-[#ed6094]"/> },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
@@ -90,7 +90,7 @@ const About = () => {
                   {item.icon}
                 </div>
                 <h3 className="font-serif font-black text-xl text-[#282828] mb-3">{item.title}</h3>
-                <p className="text-[#b3b4b0] text-sm font-black uppercase tracking-widest">{item.desc}</p>
+                <p className="text-[#282828]/60 text-xs font-black uppercase tracking-widest leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>
