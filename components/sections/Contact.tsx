@@ -91,7 +91,7 @@ const Contact = () => {
           {/* Section Header */}
           <div className="space-y-6 text-center">
             <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">Let's Connect</h2>
-            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828] tracking-tight">
+            <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
               Get In Touch
             </h3>
             <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
@@ -119,8 +119,8 @@ const Contact = () => {
                       <item.icon size={24} />
                     </div>
                     <div>
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-[#282828]/60 mb-1">{item.title}</h4>
-                      <p className="text-lg font-serif font-black text-[#282828]">{item.value}</p>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#282828]/60 mb-1">{item.title}</h4>
+                      <p className="text-lg font-serif font-bold text-[#282828]">{item.value}</p>
                     </div>
                   </motion.div>
                 ))}

@@ -44,8 +44,8 @@ const Navbar = () => {
           whileHover={{ scale: 1.05 }}
           className="text-2xl font-serif text-[#282828] flex items-center gap-2 group"
         >
-          <div className="w-10 h-10 bg-[#ed6094] rounded-full flex items-center justify-center text-white text-sm font-black shadow-lg shadow-[#ed6094]/30 group-hover:rotate-12 transition-transform">SN</div>
-          <span className="font-black tracking-tighter">SHARFA<span className="text-[#ed6094]">.</span></span>
+          <div className="w-10 h-10 bg-[#ed6094] rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-[#ed6094]/30 group-hover:rotate-12 transition-transform">SN</div>
+          <span className="font-bold tracking-tighter">SHARFA<span className="text-[#ed6094]">.</span></span>
         </motion.a>
 
         {/* Desktop Nav Links */}
@@ -54,7 +54,7 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-xs font-black uppercase tracking-[0.2em] text-[#282828] hover:text-[#ed6094] transition-all relative group"
+              className="text-xs font-bold uppercase tracking-[0.2em] text-[#282828] hover:text-[#ed6094] transition-all relative group"
             >
               {link.label}
               <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#ed6094] transition-all group-hover:w-full" />

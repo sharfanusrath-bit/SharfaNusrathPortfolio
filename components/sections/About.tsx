@@ -60,12 +60,12 @@ const About = () => {
             <div className="space-y-8 text-xl text-[#282828] leading-relaxed font-sans">
               <p>
                 I'm a passionate full-stack developer with a strong foundation in modern web technologies. Currently pursuing my B.Tech at{' '}
-                <span className="font-black text-[#282828] underline decoration-[#ed6094] decoration-4">CMR College of Engineering</span>, where I've honed my
+                <span className="font-bold text-[#282828]">CMR College of Engineering</span>, where I've honed my
                 skills in building scalable, user-centric applications.
               </p>
 
               <p>
-                My journey in web development evolved into a passion for creating beautiful, functional interfaces and robust backend systems. I love working with <span className="text-[#ed6094] font-black">React, Next.js, and AI-driven development practices</span>.
+                My journey in web development evolved into a passion for creating beautiful, functional interfaces and robust backend systems. I love working with <span className="text-[#ed6094] font-bold">React, Next.js, and AI-driven development practices</span>.
               </p>
 
               <p className="italic font-serif text-[#282828]">

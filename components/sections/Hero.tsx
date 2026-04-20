@@ -112,15 +112,15 @@ const Hero = () => {
 
             {/* Name */}
             <motion.div variants={itemVariants}>
-              <h1 className="text-6xl md:text-[7rem] font-serif font-black text-[#282828] leading-[0.9] tracking-tighter">
+              <h1 className="text-6xl md:text-[7rem] font-serif font-bold text-[#282828] leading-[0.9] tracking-tighter">
                 I'm <span className="text-[#ed6094]">Sharfa Nusrath</span>
               </h1>
             </motion.div>
 
             {/* Typing Text */}
             <motion.div variants={itemVariants} className="min-h-12 overflow-hidden py-2">
-              <p className="text-2xl md:text-3xl font-black text-[#282828] font-sans">
-                <span className="border-b-4 border-[#ed6094]">{displayedText}</span>
+              <p className="text-2xl md:text-3xl font-bold text-[#282828] font-sans">
+                <span className="text-[#ed6094]">{displayedText}</span>
                 <motion.span
                   animate={{ opacity: [1, 0] }}
                   transition={{ duration: 0.5, repeat: Infinity }}
@@ -131,7 +131,7 @@ const Hero = () => {
 
             {/* Subtitle */}
             <motion.p variants={itemVariants} className="text-xl text-[#282828] leading-relaxed max-w-lg font-sans font-medium opacity-90">
-              B.Tech student at CMR College of Engineering crafting <span className="text-[#ed6094] font-black underline decoration-2 underline-offset-4">high-performance</span>, visually stunning web experiences with Next.js and AI integrations.
+              B.Tech student at CMR College of Engineering crafting <span className="text-[#ed6094] font-bold">high-performance</span>, visually stunning web experiences with Next.js and AI integrations.
             </motion.p>
 
             {/* CTA Buttons */}

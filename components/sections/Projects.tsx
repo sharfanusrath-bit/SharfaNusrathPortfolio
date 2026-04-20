@@ -62,7 +62,7 @@ const Projects = () => {
           {/* Section Header */}
           <motion.div variants={cardVariants} className="space-y-6 text-center mb-20">
             <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">Selected Work</h2>
-            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828] tracking-tight">
+            <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
               Aesthetic Creations
             </h3>
             <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
@@ -91,7 +91,7 @@ const Projects = () => {
 
                   {/* Content */}
                   <div className="p-12 flex-1 flex flex-col">
-                    <h3 className="text-3xl font-serif font-black text-[#282828] mb-6 group-hover:text-[#ed6094] transition-colors">
+                    <h3 className="text-3xl font-serif font-bold text-[#282828] mb-6 group-hover:text-[#ed6094] transition-colors">
                       {project.title}
                     </h3>
 

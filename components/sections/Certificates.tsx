@@ -72,7 +72,7 @@ const Certificates = () => {
             <GraduationCap size={40} className="text-[#ed6094]" />
             <div>
               <h4 className="text-xl font-serif">Verified Expertise</h4>
-              <p className="text-[#f5f3ee] opacity-80 uppercase text-[10px] font-black tracking-widest">Explore technical endorsements and verified skills.</p>
+              <p className="text-[#f5f3ee] opacity-80 uppercase text-[10px] font-bold tracking-widest">Explore technical endorsements and verified skills.</p>
             </div>
           </div>
           <a

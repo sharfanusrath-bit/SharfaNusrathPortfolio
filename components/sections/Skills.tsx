@@ -64,7 +64,7 @@ const Skills = () => {
           {/* Section Header */}
           <motion.div variants={cardVariants} className="text-center space-y-4">
             <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase mb-4">Expertise</h2>
-            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828] tracking-tight">
+            <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
               Technical Proficiency
             </h3>
             <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
@@ -91,7 +91,7 @@ const Skills = () => {
                       {category.skills.map((skill, idx) => (
                         <span
                           key={idx}
-                          className="px-5 py-2 bg-[#f5f3ee] border border-[#e2e2df] rounded-full text-xs font-black uppercase tracking-widest text-[#282828] hover:border-[#ed6094] hover:text-[#ed6094] transition-all cursor-default"
+                          className="px-5 py-2 bg-[#f5f3ee] border border-[#e2e2df] rounded-full text-xs font-bold uppercase tracking-widest text-[#282828] hover:border-[#ed6094] hover:text-[#ed6094] transition-all cursor-default"
                         >
                           {skill}
                         </span>

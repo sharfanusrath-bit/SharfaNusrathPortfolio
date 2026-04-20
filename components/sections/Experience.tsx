@@ -64,7 +64,7 @@ const Experience = () => {
           {/* Section Header */}
           <div className="space-y-6 text-center">
             <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">My Timeline</h2>
-            <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828] tracking-tight">
+            <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
               Professional Journey
             </h3>
             <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
@@ -94,11 +94,11 @@ const Experience = () => {
                     <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 hover:border-[#ed6094]/30 hover:shadow-2xl transition-all duration-500 shadow-sm relative group">
                       <div className="absolute top-0 right-0 w-24 h-24 bg-[#ed6094]/5 rounded-bl-full group-hover:bg-[#ed6094]/10 transition-colors" />
                       
-                      <span className="inline-block px-4 py-1 bg-[#f5f3ee] text-[#ed6094] text-[10px] font-black uppercase tracking-widest rounded-full mb-6">
+                      <span className="inline-block px-4 py-1 bg-[#f5f3ee] text-[#ed6094] text-[10px] font-bold uppercase tracking-widest rounded-full mb-6">
                         {item.year}
                       </span>
-                      <h3 className="text-2xl font-serif font-black text-[#282828] mb-2">{item.title}</h3>
-                      <p className="text-[#ed6094] font-black uppercase tracking-widest text-[10px] mb-4">{item.company}</p>
+                      <h3 className="text-2xl font-serif font-bold text-[#282828] mb-2">{item.title}</h3>
+                      <p className="text-[#ed6094] font-bold uppercase tracking-widest text-[10px] mb-4">{item.company}</p>
                       <p className="text-[#282828] text-base leading-relaxed font-sans font-medium">{item.description}</p>
                     </div>
                   </div>
