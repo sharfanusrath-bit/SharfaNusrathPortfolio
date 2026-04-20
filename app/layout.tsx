@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Outfit, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import CustomCursor from '@/components/CustomCursor'
@@ -16,7 +17,27 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-// ... existing metadata
+  metadataBase: new URL('https://sharfanusrath.site'),
+  title: 'Developer Portfolio | Full Stack Developer',
+  description: 'Explore my portfolio showcasing projects, skills, and experience. B.Tech graduate from CMR College of Engineering.',
+  generator: 'v0.app',
+  icons: {
+    icon: [
+      {
+        url: '/icon-light-32x32.png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/icon-dark-32x32.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/icon.svg',
+        type: 'image/svg+xml',
+      },
+    ],
+    apple: '/apple-icon.png',
+  },
 }
 
 export default function RootLayout({

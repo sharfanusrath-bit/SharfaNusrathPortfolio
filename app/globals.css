@@ -46,12 +46,18 @@
 @theme inline {
   --font-sans: "Outfit", sans-serif;
   --font-serif: "Playfair Display", serif;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
   --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
 }
 
 body {
-  @apply selection:bg-pink-500/30 selection:text-pink-900 overflow-x-hidden;
+  @apply selection:bg-[#ed6094]/30 selection:text-white overflow-x-hidden;
   background-image: 
     radial-gradient(at 0% 0%, rgba(237, 96, 148, 0.05) 0px, transparent 50%),
     radial-gradient(at 100% 0%, rgba(179, 180, 176, 0.05) 0px, transparent 50%);
@@ -59,9 +65,10 @@ body {
 
 @layer base {
   * {
-    @apply border-border cursor-none;
+    cursor: none;
   }
 }
+
 
 @layer utilities {
   .gradient-text {
