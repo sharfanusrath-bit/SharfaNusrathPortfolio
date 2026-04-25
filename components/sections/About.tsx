@@ -77,9 +77,9 @@ const About = () => {
           {/* Key Points */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: 'Education', desc: 'B.Tech at CMR College', icon: <GraduationCap className="w-8 h-8 text-[#ed6094]" /> },
-              { title: 'Focus', desc: 'Full Stack & AI', icon: <Target className="w-8 h-8 text-[#ed6094]" /> },
-              { title: 'Passion', desc: 'Creative Systems', icon: <Heart className="w-8 h-8 text-[#ed6094]" /> },
+              { title: 'Education', desc: 'B.Tech at CMR College', icon: <GraduationCap className="w-8 h-8 text-[#282828]" /> },
+              { title: 'Focus', desc: 'Full Stack & AI', icon: <Target className="w-8 h-8 text-[#282828]" /> },
+              { title: 'Passion', desc: 'Creative Systems', icon: <Heart className="w-8 h-8 text-[#282828]" /> },
             ].map((item, idx) => (
               <motion.div
                 key={idx}

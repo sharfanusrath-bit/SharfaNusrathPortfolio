@@ -82,7 +82,7 @@ const Certificates = () => {
                   variants={itemVariants}
                   className="bg-white border border-[#e2e2df] rounded-[2rem] p-8 hover:border-[#ed6094]/30 hover:shadow-2xl transition-all duration-500 group relative"
                 >
-                  <div className="w-14 h-14 bg-[#f5f3ee] rounded-2xl flex items-center justify-center text-[#ed6094] mb-8 group-hover:bg-[#ed6094] group-hover:text-white transition-colors">
+                  <div className="w-14 h-14 bg-[#f5f3ee] rounded-2xl flex items-center justify-center text-[#282828] mb-8 group-hover:bg-[#282828] group-hover:text-white transition-colors">
                     <Award size={28} />
                   </div>
 

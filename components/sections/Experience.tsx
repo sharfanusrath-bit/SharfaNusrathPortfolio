@@ -56,11 +56,11 @@ const Experience = () => {
           {/* Section Header */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
             <div className="space-y-6 text-center md:text-left">
-              <h2 className="text-sm font-bold tracking-[0.3em] text-[#282828] uppercase">My Milestones and Learnings</h2>
+              <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">My Milestones and Learnings</h2>
               <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
                 Professional Journey
               </h3>
-              <div className="h-1 w-24 bg-[#282828] mx-auto md:mx-0" />
+              <div className="h-1 w-24 bg-[#ed6094] mx-auto md:mx-0" />
             </div>
             {isAdmin && (
               <button 
