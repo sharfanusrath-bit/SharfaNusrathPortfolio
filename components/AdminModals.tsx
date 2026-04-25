@@ -4,8 +4,10 @@ import { useState, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { X, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import SimpleMDE from 'react-simplemde-editor';
+import dynamic from 'next/dynamic';
 import 'easymde/dist/easymde.min.css';
+
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 interface ModalProps {
   type: 'blog' | 'experience' | 'gallery' | 'project' | 'certificate' | null;
