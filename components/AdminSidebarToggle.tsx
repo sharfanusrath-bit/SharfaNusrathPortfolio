@@ -12,15 +12,25 @@ export default function AdminSidebarToggle() {
   const { user, isAdmin, loading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<'blog' | 'experience' | 'gallery' | 'project' | 'certificate' | null>(null);
+  
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) alert(error.message);
+    
+    let result;
+    if (authMode === 'login') {
+      result = await supabase.auth.signInWithPassword({ email, password });
+    } else {
+      result = await supabase.auth.signUp({ email, password, options: { data: { is_admin: false } } });
+      if (!result.error) alert('Account created! Please ask an owner to grant admin access or update the users table in Supabase.');
+    }
+
+    if (result.error) alert(result.error.message);
     setAuthLoading(false);
   };
 
@@ -133,6 +143,7 @@ export default function AdminSidebarToggle() {
                     <div className="bg-white p-6 rounded-3xl border border-[#e2e2df]">
                       <p className="text-sm font-bold text-[#282828]">Viewer Access</p>
                       <p className="text-xs text-[#282828]/60 mt-1">You are logged in as {user.email}</p>
+                      <p className="text-xs text-[#ed6094] font-bold mt-4">Please set is_admin to TRUE in Supabase for this user.</p>
                     </div>
                   )}
 
@@ -147,11 +158,26 @@ export default function AdminSidebarToggle() {
                 </div>
               ) : (
                 <div className="flex-1 flex flex-col">
-                  <p className="text-sm text-[#282828]/60 mb-8 leading-relaxed">
-                    Log in to access administrative features and manage your content.
+                  <div className="flex gap-4 mb-8">
+                    <button 
+                      onClick={() => setAuthMode('login')}
+                      className={`flex-1 pb-2 text-[10px] font-black uppercase tracking-widest transition-all ${authMode === 'login' ? 'text-[#ed6094] border-b-2 border-[#ed6094]' : 'text-[#282828]/40'}`}
+                    >
+                      Sign In
+                    </button>
+                    <button 
+                      onClick={() => setAuthMode('signup')}
+                      className={`flex-1 pb-2 text-[10px] font-black uppercase tracking-widest transition-all ${authMode === 'signup' ? 'text-[#ed6094] border-b-2 border-[#ed6094]' : 'text-[#282828]/40'}`}
+                    >
+                      New Account
+                    </button>
+                  </div>
+
+                  <p className="text-sm text-[#282828]/60 mb-8 leading-relaxed italic">
+                    {authMode === 'login' ? 'Sign in to access your administrative dashboard.' : 'Enter your details to register as a new site authority.'}
                   </p>
 
-                  <form onSubmit={handleLogin} className="space-y-4">
+                  <form onSubmit={handleAuth} className="space-y-4">
                     <div>
                       <label className="text-[10px] font-bold text-[#282828]/40 uppercase tracking-[0.2em] mb-2 block pl-1">Email</label>
                       <input 
@@ -179,7 +205,7 @@ export default function AdminSidebarToggle() {
                       disabled={authLoading}
                       className="w-full p-4 bg-[#ed6094] text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-lg shadow-[#ed6094]/30 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
                     >
-                      {authLoading ? 'Verifying...' : 'Sign In'}
+                      {authLoading ? 'Verifying...' : authMode === 'login' ? 'Sign In' : 'Register Account'}
                     </button>
                   </form>
                 </div>
