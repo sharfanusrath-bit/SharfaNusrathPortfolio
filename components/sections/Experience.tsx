@@ -1,37 +1,25 @@
 'use client';
 
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, Briefcase, BookOpen } from 'lucide-react';
+import { GraduationCap, Briefcase, Plus } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/hooks/useAuth';
 
 const Experience = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [experiences, setExperiences] = useState<any[]>([]);
+  const { isAdmin } = useAuth();
 
-  const timeline = [
-    {
-      year: '2026(feb)-present',
-      title: 'Internship',
-      company: 'EvoveX',
-      description: 'Working on developing scalable web applications and contributed to open-source projects.',
-      icon: Briefcase,
-    },
-    {
-      year: '2026',
-      title: 'Internship',
-      company: '1stop.ai',
-      description: 'Worked on AI projects that helped me truly to understand the real world',
-      icon: Briefcase,
-    },
-    {
-      year: '2024-Present',
-      title: 'B.Tech in CSE',
-      company: 'CMR College of Engineering',
-      description: 'Pursuing Bachelor of Technology in Computer Science and Engineering. Focusing on advanced algorithms,and modern web architecture.',
-      icon: GraduationCap,
-    },
-  ];
+  useEffect(() => {
+    async function fetchExperiences() {
+      const { data, error } = await supabase.from('experiences').select('*').order('created_at', { ascending: false });
+      if (!error) setExperiences(data || []);
+    }
+    fetchExperiences();
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -62,12 +50,22 @@ const Experience = () => {
           className="space-y-24"
         >
           {/* Section Header */}
-          <div className="space-y-6 text-center">
-            <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">My Timeline</h2>
-            <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
-              Professional Journey
-            </h3>
-            <div className="h-1 w-24 bg-[#ed6094] mx-auto" />
+          <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
+            <div className="space-y-6 text-center md:text-left">
+              <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">My Timeline</h2>
+              <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
+                Professional Journey
+              </h3>
+              <div className="h-1 w-24 bg-[#ed6094] mx-auto md:mx-0" />
+            </div>
+            {isAdmin && (
+              <button 
+                onClick={() => document.getElementById('admin-experience-trigger')?.click()}
+                className="flex items-center gap-2 px-8 py-4 bg-[#ed6094] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-[#ed6094]/30 hover:scale-105 transition-all"
+              >
+                <Plus size={18} /> New Milestone
+              </button>
+            )}
           </div>
 
           {/* Timeline Wrapper */}
@@ -80,40 +78,46 @@ const Experience = () => {
               transition={{ duration: 1 }}
             />
 
-            {timeline.map((item, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                className={`relative flex items-center gap-8 md:gap-0 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-              >
-                {/* Content Card Side */}
-                <div className="md:w-1/2">
-                  <div className={`pl-12 md:pl-0 ${idx % 2 === 0 ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}>
-                    <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 hover:border-[#ed6094]/30 hover:shadow-2xl transition-all duration-500 shadow-sm relative group">
-                      <div className="absolute top-0 right-0 w-24 h-24 bg-[#ed6094]/5 rounded-bl-full group-hover:bg-[#ed6094]/10 transition-colors" />
+            {experiences.length === 0 ? (
+              <div className="py-20 text-center text-[#282828]/40 border-2 border-dashed border-[#e2e2df] rounded-[2.5rem]">
+                <p className="font-serif italic text-xl">Timeline details are being gathered...</p>
+              </div>
+            ) : (
+              experiences.map((item, idx) => (
+                <motion.div
+                  key={item.id}
+                  variants={itemVariants}
+                  className={`relative flex items-center gap-8 md:gap-0 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                    }`}
+                >
+                  {/* Content Card Side */}
+                  <div className="md:w-1/2">
+                    <div className={`pl-12 md:pl-0 ${idx % 2 === 0 ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}>
+                      <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 hover:border-[#ed6094]/30 hover:shadow-2xl transition-all duration-500 shadow-sm relative group">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#ed6094]/5 rounded-bl-full group-hover:bg-[#ed6094]/10 transition-colors" />
 
-                      <span className="inline-block px-4 py-1 bg-[#f5f3ee] text-[#ed6094] text-[10px] font-bold uppercase tracking-widest rounded-full mb-6">
-                        {item.year}
-                      </span>
-                      <h3 className="text-2xl font-serif font-bold text-[#282828] mb-2">{item.title}</h3>
-                      <p className="text-[#ed6094] font-bold uppercase tracking-widest text-[10px] mb-4">{item.company}</p>
-                      <p className="text-[#282828] text-base leading-relaxed font-sans font-medium">{item.description}</p>
+                        <span className="inline-block px-4 py-1 bg-[#f5f3ee] text-[#ed6094] text-[10px] font-black uppercase tracking-widest rounded-full mb-6">
+                          {item.duration}
+                        </span>
+                        <h3 className="text-2xl font-serif font-bold text-[#282828] mb-2">{item.title}</h3>
+                        <p className="text-[#ed6094] font-black uppercase tracking-widest text-[10px] mb-4">{item.company}</p>
+                        <p className="text-[#282828]/70 text-base leading-relaxed font-sans font-medium">{item.description}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Center Icon */}
-                <div className="absolute left-0 md:left-1/2 w-14 h-14 flex items-center justify-center transform -translate-x-0 md:-translate-x-1/2">
-                  <div className="w-14 h-14 rounded-full bg-white border-2 border-[#ed6094] flex items-center justify-center shadow-2xl z-20 text-[#ed6094]">
-                    <item.icon size={24} />
+                  {/* Center Icon */}
+                  <div className="absolute left-0 md:left-1/2 w-14 h-14 flex items-center justify-center transform -translate-x-0 md:-translate-x-1/2">
+                    <div className="w-14 h-14 rounded-full bg-white border-2 border-[#ed6094] flex items-center justify-center shadow-2xl z-20 text-[#ed6094]">
+                      {item.title.toLowerCase().includes('b.tech') || item.title.toLowerCase().includes('degree') ? <GraduationCap size={24} /> : <Briefcase size={24} />}
+                    </div>
                   </div>
-                </div>
 
-                {/* Empty Side for Spacing */}
-                <div className="hidden md:block md:w-1/2" />
-              </motion.div>
-            ))}
+                  {/* Empty Side for Spacing */}
+                  <div className="hidden md:block md:w-1/2" />
+                </motion.div>
+              ))
+            )}
           </div>
         </motion.div>
       </div>
@@ -122,4 +126,3 @@ const Experience = () => {
 };
 
 export default Experience;
-

@@ -5,6 +5,8 @@ import About from '@/components/sections/About';
 import Skills from '@/components/sections/Skills';
 import Projects from '@/components/sections/Projects';
 import Experience from '@/components/sections/Experience';
+import Blogs from '@/components/sections/Blogs';
+import Gallery from '@/components/sections/Gallery';
 import Certificates from '@/components/sections/Certificates';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/sections/Footer';
@@ -19,6 +21,8 @@ export default function Home() {
       <Skills />
       <Projects />
       <Experience />
+      <Blogs />
+      <Gallery />
       <Certificates />
       <Contact />
       <Footer />

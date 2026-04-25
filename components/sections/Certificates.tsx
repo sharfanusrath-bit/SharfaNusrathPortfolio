@@ -1,88 +1,119 @@
 'use client';
-import { motion } from 'framer-motion';
-import { ExternalLink, Award, ShieldCheck, GraduationCap } from 'lucide-react';
 
-const certificates = [
-  {
-    title: 'Professional Certifications',
-    issuer: 'LinkedIn / Various',
-    link: 'https://www.linkedin.com/in/sharfa-nusrath-026600378/details/certifications/',
-    icon: ShieldCheck,
-    color: '#ed6094',
-  },
-];
+import { useInView } from 'framer-motion';
+import { useRef, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { ExternalLink, Award, Plus } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/hooks/useAuth';
 
 const Certificates = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [certs, setCerts] = useState<any[]>([]);
+  const { isAdmin } = useAuth();
+
+  useEffect(() => {
+    async function fetchCerts() {
+      const { data, error } = await supabase.from('certificates').select('*').order('created_at', { ascending: false });
+      if (!error) setCerts(data || []);
+    }
+    fetchCerts();
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
+
   return (
-    <section id="certificates" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-[#f6e1d6]/30">
-      <div className="max-w-6xl mx-auto relative z-10">
+    <section id="certificates" ref={ref} className="py-32 px-4 sm:px-6 lg:px-8 relative bg-transparent overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          className="space-y-16"
         >
-          <h2 className="text-sm font-bold tracking-[0.2em] text-[#ed6094] uppercase mb-4">Recognition</h2>
-          <h3 className="text-4xl md:text-5xl font-serif text-[#282828]">My Certificates</h3>
-          <div className="w-20 h-1 bg-[#ed6094] mx-auto mt-6" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {certificates.map((cert, index) => (
-            <motion.a
-              key={index}
-              href={cert.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02 }}
-              className="group block p-8 bg-white border border-[#e2e2df] rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-[#ed6094]/5 rounded-bl-full group-hover:bg-[#ed6094]/10 transition-colors" />
-
-              <div className="flex items-start gap-6">
-                <div className="p-4 bg-[#f5f3ee] text-[#ed6094] rounded-xl group-hover:bg-[#ed6094] group-hover:text-white transition-colors duration-300">
-                  <cert.icon size={32} />
-                </div>
-                <div>
-                  <h4 className="text-2xl font-serif text-[#282828] mb-2">{cert.title}</h4>
-                  <p className="text-[#282828] font-bold mb-4 opacity-70">{cert.issuer}</p>
-                  <div className="flex items-center gap-2 text-[#ed6094] font-bold group-hover:gap-4 transition-all">
-                    <span>View on LinkedIn</span>
-                    <ExternalLink size={18} />
-                  </div>
-                </div>
-              </div>
-            </motion.a>
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 p-8 bg-[#282828] text-white rounded-3xl flex flex-col md:flex-row items-center justify-between gap-8"
-        >
-          <div className="flex items-center gap-4">
-            <GraduationCap size={40} className="text-[#ed6094]" />
-            <div>
-              <h4 className="text-xl font-serif">Verified Expertise</h4>
-              <p className="text-[#f5f3ee] opacity-80 uppercase text-[10px] font-bold tracking-widest">Explore technical endorsements and verified skills.</p>
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row justify-between items-center mb-20 gap-8">
+            <div className="space-y-6 text-center md:text-left">
+              <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">Recognition</h2>
+              <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
+                Verified Expertise
+              </h3>
+              <div className="h-1 w-24 bg-[#ed6094] mx-auto md:mx-0" />
             </div>
+            {isAdmin && (
+              <button 
+                className="flex items-center gap-2 px-8 py-4 bg-[#ed6094] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-[#ed6094]/30 hover:scale-105 transition-all"
+                onClick={() => {
+                  const trigger = document.getElementById('admin-cert-trigger');
+                  if (trigger) trigger.click();
+                  else alert('Please use the Control Center in the left sidebar to add certificates.');
+                }}
+              >
+                <Plus size={18} /> New Certificate
+              </button>
+            )}
           </div>
-          <a
-            href="https://www.linkedin.com/in/sharfa-nusrath-026600378/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-8 py-4 bg-[#ed6094] hover:bg-[#d5467c] text-white font-bold rounded-xl transition-all shadow-lg shadow-[#ed6094]/20"
-          >
-            Connect on LinkedIn
-          </a>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {certs.length === 0 ? (
+              <p className="col-span-full text-center py-20 text-[#282828]/40 italic font-serif">Certifications are loading...</p>
+            ) : (
+              certs.map((cert) => (
+                <motion.div
+                  key={cert.id}
+                  variants={itemVariants}
+                  className="bg-white border border-[#e2e2df] rounded-[2rem] p-8 hover:border-[#ed6094]/30 hover:shadow-2xl transition-all duration-500 group relative"
+                >
+                  <div className="w-14 h-14 bg-[#f5f3ee] rounded-2xl flex items-center justify-center text-[#ed6094] mb-8 group-hover:bg-[#ed6094] group-hover:text-white transition-colors">
+                    <Award size={28} />
+                  </div>
+
+                  <h4 className="text-xl font-serif font-bold text-[#282828] mb-2 group-hover:text-[#ed6094] transition-colors line-clamp-1">
+                    {cert.title}
+                  </h4>
+                  <p className="text-[#ed6094] font-bold uppercase tracking-widest text-[10px] mb-6">
+                    {cert.issuer} • {cert.date}
+                  </p>
+
+                  <div className="aspect-video w-full bg-[#f5f3ee] rounded-2xl mb-8 overflow-hidden">
+                    <img 
+                      src={cert.image_url || '/placeholder-cert.png'} 
+                      alt={cert.title} 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+                    />
+                  </div>
+
+                  {cert.credential_link && (
+                    <a
+                      href={cert.credential_link}
+                      target="_blank"
+                      className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#282828] hover:text-[#ed6094] transition-colors"
+                    >
+                      Verify Credential <ExternalLink size={14} />
+                    </a>
+                  )}
+                </motion.div>
+              ))
+            )}
+          </div>
         </motion.div>
       </div>
     </section>
