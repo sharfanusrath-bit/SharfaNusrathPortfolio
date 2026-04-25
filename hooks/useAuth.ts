@@ -10,31 +10,48 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      if (currentUser) {
-        setIsAdmin(currentUser.user_metadata?.is_admin === true);
+    async function checkAdmin(u: User | null) {
+      if (!u) {
+        setIsAdmin(false);
+        setLoading(false);
+        return;
       }
-      setLoading(false);
-    });
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      if (currentUser) {
-        setIsAdmin(currentUser.user_metadata?.is_admin === true);
+      // First check metadata for speed
+      if (u.user_metadata?.is_admin === true) {
+        setIsAdmin(true);
+        setLoading(false);
+        return;
+      }
+
+      // If not in metadata, check the database table
+      const { data, error } = await supabase
+        .from('users')
+        .select('is_admin')
+        .eq('id', u.id)
+        .single();
+      
+      if (!error && data) {
+        setIsAdmin(data.is_admin);
       } else {
         setIsAdmin(false);
       }
       setLoading(false);
+    }
+
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      checkAdmin(session?.user ?? null);
     });
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      checkAdmin(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return { user, isAdmin, loading };
