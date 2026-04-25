@@ -123,9 +123,18 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
 -- Allow public access to all objects in these buckets
 CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id IN ('gallery', 'projects', 'certificates'));
 
--- Allow admins to upload/update/delete objects
-CREATE POLICY "Admin Manage Objects" ON storage.objects 
-  FOR ALL USING (
-    bucket_id IN ('gallery', 'projects', 'certificates') AND
-    (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
-  );
+-- Allow admins to manage objects (Upload/Update/Delete)
+CREATE POLICY "Admin Insert Objects" ON storage.objects FOR INSERT WITH CHECK (
+  bucket_id IN ('gallery', 'projects', 'certificates') AND
+  (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
+);
+
+CREATE POLICY "Admin Update Objects" ON storage.objects FOR UPDATE WITH CHECK (
+  bucket_id IN ('gallery', 'projects', 'certificates') AND
+  (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
+);
+
+CREATE POLICY "Admin Delete Objects" ON storage.objects FOR DELETE USING (
+  bucket_id IN ('gallery', 'projects', 'certificates') AND
+  (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
+);

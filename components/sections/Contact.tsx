@@ -115,7 +115,7 @@ const Contact = () => {
                     className="bg-white border border-[#e2e2df] rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex items-center gap-6 group"
                     whileHover={{ x: 10 }}
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-[#f5f3ee] flex items-center justify-center text-[#ed6094] group-hover:bg-[#ed6094] group-hover:text-white transition-colors">
+                    <div className="w-14 h-14 rounded-2xl bg-[#f5f3ee] flex items-center justify-center text-[#282828] group-hover:bg-[#282828] group-hover:text-white transition-colors">
                       <item.icon size={24} />
                     </div>
                     <div>

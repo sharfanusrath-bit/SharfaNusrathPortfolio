@@ -56,7 +56,7 @@ const CustomCursor = () => {
       />
       {/* Inner Dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-[#ed6094] rounded-full pointer-events-none z-[9999] hidden md:block"
+        className="fixed top-0 left-0 w-4 h-4 bg-[#ed6094] rounded-full pointer-events-none z-[9999] hidden md:block"
         style={{
           x: mouseX,
           y: mouseY,

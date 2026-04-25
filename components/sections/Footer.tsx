@@ -5,8 +5,8 @@ import { ArrowUp } from 'lucide-react';
 
 const Footer = () => {
   const socialLinks = [
-    { icon: <FaGithub size={24} />, label: 'GitHub', href: 'https://github.com/sharfanusrath-bit', color: 'hover:text-[#ed6094]' },
-    { icon: <FaLinkedin size={24} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/sharfa-nusrath-026600378/', color: 'hover:text-[#ed6094]' },
+    { icon: <FaGithub size={24} />, label: 'GitHub', href: 'https://github.com/sharfanusrath-bit', color: 'text-[#ed6094]' },
+    { icon: <FaLinkedin size={24} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/sharfa-nusrath-026600378/', color: 'text-[#ed6094]' },
   ];
 
   const currentYear = new Date().getFullYear();
@@ -32,7 +32,7 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`text-white/40 ${social.color} transition-colors p-2 border border-white/10 rounded-xl hover:border-[#ed6094]`}
+                  className={`${social.color} transition-colors p-2 border border-white/10 rounded-xl hover:border-[#ed6094]`}
                   whileHover={{ y: -5 }}
                   title={social.label}
                 >

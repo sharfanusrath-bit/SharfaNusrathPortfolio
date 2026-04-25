@@ -30,7 +30,6 @@ const Navbar = () => {
   ];
 
   const handleAdminToggle = () => {
-    // Dispatch a custom event that AdminSidebarToggle.tsx will listen to
     window.dispatchEvent(new CustomEvent('toggle-admin-panel'));
   };
 
@@ -44,8 +43,17 @@ const Navbar = () => {
         }`}
     >
       <div className="max-w-7xl mx-auto px-10 flex justify-between items-center">
-        {/* Leftmost side: Admin/Login Trigger */}
-        <div className="flex items-center">
+        {/* Left Side Group: Logo + Admin */}
+        <div className="flex items-center gap-6">
+           {/* Logo Beside Admin */}
+          <motion.a
+            href="#home"
+            whileHover={{ scale: 1.05 }}
+            className="text-2xl font-serif text-[#282828] flex items-center gap-2 group"
+          >
+            <div className="w-10 h-10 bg-[#ed6094] rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-[#ed6094]/30 group-hover:rotate-12 transition-transform">SN</div>
+          </motion.a>
+
           <button
             onClick={handleAdminToggle}
             className="flex items-center gap-2 px-6 py-2 bg-[#282828] text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg hover:bg-black transition-all"
@@ -54,15 +62,6 @@ const Navbar = () => {
             {user ? (isAdmin ? 'Admin' : 'Account') : 'Login'}
           </button>
         </div>
-
-        {/* Logo */}
-        <motion.a
-          href="#home"
-          whileHover={{ scale: 1.05 }}
-          className="text-2xl font-serif text-[#282828] flex items-center gap-2 group absolute left-1/2 -translate-x-1/2"
-        >
-          <div className="w-10 h-10 bg-[#ed6094] rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-[#ed6094]/30 group-hover:rotate-12 transition-transform">SN</div>
-        </motion.a>
 
         {/* Desktop Nav Links */}
         <div className="hidden md:flex items-center gap-10">
@@ -104,7 +103,7 @@ const Navbar = () => {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-3xl font-serif font-black text-[#282828] hover:text-black transition-colors"
+                  className="text-3xl font-serif font-black text-[#282828] hover:text-[#ed6094] transition-colors"
                 >
                   {link.label}
                 </a>
