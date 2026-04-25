@@ -25,8 +25,8 @@ const Projects = () => {
   const handleEdit = (project: any) => {
     // This is a bit tricky since AdminSidebarToggle manages the modal.
     // I'll update AdminSidebarToggle to listen for edit events too.
-    window.dispatchEvent(new CustomEvent('open-admin-modal', { 
-      detail: { type: 'project', data: project } 
+    window.dispatchEvent(new CustomEvent('open-admin-modal', {
+      detail: { type: 'project', data: project }
     }));
   };
 
@@ -60,9 +60,9 @@ const Projects = () => {
               <div className="h-1 w-24 bg-[#ed6094] mx-auto md:mx-0" />
             </motion.div>
             {isAdmin && (
-              <button 
+              <button
                 onClick={handleCreate}
-                className="flex items-center gap-2 px-8 py-4 bg-[#282828] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-black/30 hover:scale-105 transition-all text-sm"
+                className="flex items-center gap-2 px-8 py-4 bg-[#ed6094] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-black/30 hover:scale-105 transition-all text-sm"
               >
                 <Plus size={18} /> New Project
               </button>
@@ -72,7 +72,7 @@ const Projects = () => {
           {/* Projects Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
             {projects.length === 0 ? (
-              <p className="col-span-full text-center py-20 text-[#282828]/40 italic font-serif">Aesthetic creations are loading...</p>
+              <p className="col-span-full text-center py-20 text-[#282828]/40 italic font-serif">My creations are loading...</p>
             ) : (
               projects.map((project, idx) => (
                 <motion.div
@@ -87,13 +87,13 @@ const Projects = () => {
                     {/* Admin Actions */}
                     {isAdmin && (
                       <div className="absolute top-6 right-6 z-30 flex gap-2">
-                        <button 
+                        <button
                           onClick={() => handleEdit(project)}
-                          className="p-3 bg-white/90 backdrop-blur-md rounded-full text-[#282828] hover:bg-[#282828] hover:text-white transition-all shadow-lg"
+                          className="p-3 bg-white/90 backdrop-blur-md rounded-full text-[#ed6094] hover:bg-[#282828] hover:text-white transition-all shadow-lg"
                         >
                           <Edit2 size={16} />
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleDelete(project.id)}
                           className="p-3 bg-white/90 backdrop-blur-md rounded-full text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg"
                         >
@@ -105,10 +105,10 @@ const Projects = () => {
                     {/* Image Container */}
                     <div className="h-80 relative overflow-hidden bg-[#f5f3ee]">
                       <div className="absolute inset-0 bg-[#282828]/5 group-hover:bg-transparent transition-colors z-10" />
-                      <img 
-                        src={project.image_url || '/placeholder.png'} 
+                      <img
+                        src={project.image_url || '/placeholder.png'}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
 
                       {/* Floating Tech Badges */}
@@ -129,7 +129,7 @@ const Projects = () => {
                       <p className="text-[#282828]/60 text-base leading-relaxed font-medium line-clamp-3">
                         {project.description}
                       </p>
-                      
+
                       <div className="flex items-center gap-6 pt-4">
                         {project.github_link && (
                           <a href={project.github_link} target="_blank" className="p-3 border border-[#e2e2df] rounded-full text-[#282828] hover:bg-[#282828] hover:text-white transition-all">

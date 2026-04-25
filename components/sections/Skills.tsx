@@ -77,7 +77,7 @@ const Skills = () => {
                 <motion.div variants={cardVariants} className="h-full">
                   <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 h-full flex flex-col group relative overflow-hidden shadow-sm hover:shadow-xl hover:border-[#ed6094]/30 transition-all duration-500">
                     {/* Icon */}
-                    <div className="mb-8 p-5 bg-[#f5f3ee] rounded-2xl w-fit group-hover:bg-[#282828] group-hover:text-white transition-all duration-500">
+                    <div className="mb-8 p-5 bg-[#f5f3ee] rounded-2xl w-fit group-hover:bg-[#ed6094] group-hover:text-white transition-all duration-500">
                       {category.icon}
                     </div>
 

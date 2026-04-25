@@ -63,9 +63,9 @@ const Experience = () => {
               <div className="h-1 w-24 bg-[#ed6094] mx-auto md:mx-0" />
             </div>
             {isAdmin && (
-              <button 
+              <button
                 onClick={handleCreate}
-                className="flex items-center gap-2 px-8 py-4 bg-[#282828] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-black/30 hover:scale-105 transition-all"
+                className="flex items-center gap-2 px-8 py-4 bg-[#ed6094] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-black/30 hover:scale-105 transition-all"
               >
                 <Plus size={18} /> New Milestone
               </button>
