@@ -6,7 +6,7 @@ import Tilt from '@/components/Tilt';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 const Hero = () => {
-  const roles = ['Full Stack Developer', 'AI Engineer', 'Creative Designer'];
+  const roles = ['Full Stack Developer', 'AI Engineer', 'Creative Designer', 'Web Developer'];
   const [displayedText, setDisplayedText] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);

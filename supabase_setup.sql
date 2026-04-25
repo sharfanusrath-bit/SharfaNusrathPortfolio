@@ -115,3 +115,17 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- 8. Storage Policies
+-- Note: Make sure buckets 'gallery', 'projects', and 'certificates' are created in the UI first.
+-- These policies allow public reads and admin writes.
+
+-- Allow public access to all objects in these buckets
+CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id IN ('gallery', 'projects', 'certificates'));
+
+-- Allow admins to upload/update/delete objects
+CREATE POLICY "Admin Manage Objects" ON storage.objects 
+  FOR ALL USING (
+    bucket_id IN ('gallery', 'projects', 'certificates') AND
+    (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
+  );

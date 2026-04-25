@@ -40,6 +40,10 @@ const Experience = () => {
     },
   };
 
+  const handleCreate = () => {
+    window.dispatchEvent(new CustomEvent('open-admin-modal', { detail: { type: 'experience' } }));
+  };
+
   return (
     <section id="experience" ref={ref} className="py-32 px-4 sm:px-6 lg:px-8 relative bg-transparent">
       <div className="max-w-5xl mx-auto relative z-10">
@@ -52,16 +56,16 @@ const Experience = () => {
           {/* Section Header */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
             <div className="space-y-6 text-center md:text-left">
-              <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">My Timeline</h2>
+              <h2 className="text-sm font-bold tracking-[0.3em] text-[#282828] uppercase">My Milestones and Learnings</h2>
               <h3 className="text-4xl md:text-6xl font-serif font-bold text-[#282828] tracking-tight">
                 Professional Journey
               </h3>
-              <div className="h-1 w-24 bg-[#ed6094] mx-auto md:mx-0" />
+              <div className="h-1 w-24 bg-[#282828] mx-auto md:mx-0" />
             </div>
             {isAdmin && (
               <button 
-                onClick={() => document.getElementById('admin-experience-trigger')?.click()}
-                className="flex items-center gap-2 px-8 py-4 bg-[#ed6094] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-[#ed6094]/30 hover:scale-105 transition-all"
+                onClick={handleCreate}
+                className="flex items-center gap-2 px-8 py-4 bg-[#282828] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-black/30 hover:scale-105 transition-all"
               >
                 <Plus size={18} /> New Milestone
               </button>
@@ -79,7 +83,7 @@ const Experience = () => {
             />
 
             {experiences.length === 0 ? (
-              <div className="py-20 text-center text-[#282828]/40 border-2 border-dashed border-[#e2e2df] rounded-[2.5rem]">
+              <div className="py-20 text-center text-[#282828]/40 border-2 border-dashed border-[#e2e2df] rounded-[2rem]">
                 <p className="font-serif italic text-xl">Timeline details are being gathered...</p>
               </div>
             ) : (
@@ -93,14 +97,14 @@ const Experience = () => {
                   {/* Content Card Side */}
                   <div className="md:w-1/2">
                     <div className={`pl-12 md:pl-0 ${idx % 2 === 0 ? 'md:pr-16 text-left md:text-right' : 'md:pl-16 text-left'}`}>
-                      <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 hover:border-[#ed6094]/30 hover:shadow-2xl transition-all duration-500 shadow-sm relative group">
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#ed6094]/5 rounded-bl-full group-hover:bg-[#ed6094]/10 transition-colors" />
+                      <div className="bg-white border border-[#e2e2df] rounded-[2rem] p-10 hover:border-[#282828]/30 hover:shadow-2xl transition-all duration-500 shadow-sm relative group">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#282828]/5 rounded-bl-full group-hover:bg-[#282828]/10 transition-colors" />
 
-                        <span className="inline-block px-4 py-1 bg-[#f5f3ee] text-[#ed6094] text-[10px] font-black uppercase tracking-widest rounded-full mb-6">
+                        <span className="inline-block px-4 py-1 bg-[#f5f3ee] text-[#282828] text-[10px] font-black uppercase tracking-widest rounded-full mb-6">
                           {item.duration}
                         </span>
                         <h3 className="text-2xl font-serif font-bold text-[#282828] mb-2">{item.title}</h3>
-                        <p className="text-[#ed6094] font-black uppercase tracking-widest text-[10px] mb-4">{item.company}</p>
+                        <p className="text-[#282828] font-black uppercase tracking-widest text-[10px] mb-4 opacity-60">{item.company}</p>
                         <p className="text-[#282828]/70 text-base leading-relaxed font-sans font-medium">{item.description}</p>
                       </div>
                     </div>
@@ -108,7 +112,7 @@ const Experience = () => {
 
                   {/* Center Icon */}
                   <div className="absolute left-0 md:left-1/2 w-14 h-14 flex items-center justify-center transform -translate-x-0 md:-translate-x-1/2">
-                    <div className="w-14 h-14 rounded-full bg-white border-2 border-[#ed6094] flex items-center justify-center shadow-2xl z-20 text-[#ed6094]">
+                    <div className="w-14 h-14 rounded-full bg-white border-2 border-[#282828] flex items-center justify-center shadow-2xl z-20 text-[#282828]">
                       {item.title.toLowerCase().includes('b.tech') || item.title.toLowerCase().includes('degree') ? <GraduationCap size={24} /> : <Briefcase size={24} />}
                     </div>
                   </div>

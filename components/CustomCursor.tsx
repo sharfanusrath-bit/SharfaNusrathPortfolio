@@ -1,60 +1,71 @@
 'use client';
+
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-    const handleMouseOver = (e: MouseEvent) => {
+  // Smooth spring physics for the ring
+  const springConfig = { damping: 25, stiffness: 200, mass: 0.5 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  useEffect(() => {
+    setMounted(true);
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+
       const target = e.target as HTMLElement;
-      if (
+      setIsHovering(
+        target.closest('button') !== null ||
+        target.closest('a') !== null ||
         target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        target.closest('a') ||
-        target.closest('button') ||
-        target.classList.contains('cursor-pointer')
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+        target.tagName === 'BUTTON'
+      );
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [mouseX, mouseY]);
 
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
-    };
-  }, []);
+  if (!mounted) return null;
 
   return (
     <>
+      {/* Outer Ring */}
       <motion.div
-        className="fixed top-0 left-0 w-6 h-6 bg-[#ed6094] rounded-full pointer-events-none z-[9999]"
-        animate={{
-          x: mousePosition.x - 12,
-          y: mousePosition.y - 12,
-          scale: isHovering ? 2 : 1,
+        className="fixed top-0 left-0 w-10 h-10 border border-[#282828] rounded-full pointer-events-none z-[9999] hidden md:block"
+        style={{
+          x: smoothX,
+          y: smoothY,
+          translateX: '-50%',
+          translateY: '-50%',
         }}
-        transition={{ type: 'spring', damping: 20, stiffness: 400, mass: 0.1 }}
-      />
-      <motion.div
-        className="fixed top-0 left-0 w-12 h-12 border-2 border-[#ed6094]/40 rounded-full pointer-events-none z-[9998]"
         animate={{
-          x: mousePosition.x - 24,
-          y: mousePosition.y - 24,
           scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0 : 0.8,
+          borderWidth: isHovering ? '1px' : '1px',
+          backgroundColor: isHovering ? 'rgba(40, 40, 40, 0.05)' : 'transparent',
         }}
-        transition={{ type: 'spring', damping: 25, stiffness: 250, mass: 0.2 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 200 }}
+      />
+      {/* Inner Dot */}
+      <motion.div
+        className="fixed top-0 left-0 w-2 h-2 bg-[#282828] rounded-full pointer-events-none z-[9999] hidden md:block"
+        style={{
+          x: mouseX,
+          y: mouseY,
+          translateX: '-50%',
+          translateY: '-50%',
+        }}
+        animate={{
+          scale: isHovering ? 0 : 1,
+        }}
       />
     </>
   );

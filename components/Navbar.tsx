@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,53 +29,60 @@ const Navbar = () => {
     { href: '#contact', label: 'Contact' },
   ];
 
+  const handleAdminToggle = () => {
+    // Dispatch a custom event that AdminSidebarToggle.tsx will listen to
+    window.dispatchEvent(new CustomEvent('toggle-admin-panel'));
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled
-          ? 'py-4 bg-[#f5f3ee]/90 backdrop-blur-xl border-b border-[#e2e2df] shadow-sm'
-          : 'py-8 bg-transparent'
+        ? 'py-4 bg-[#f5f3ee]/90 backdrop-blur-xl border-b border-[#e2e2df] shadow-sm'
+        : 'py-8 bg-transparent'
         }`}
     >
       <div className="max-w-7xl mx-auto px-10 flex justify-between items-center">
+        {/* Leftmost side: Admin/Login Trigger */}
+        <div className="flex items-center">
+          <button
+            onClick={handleAdminToggle}
+            className="flex items-center gap-2 px-6 py-2 bg-[#282828] text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg hover:bg-black transition-all"
+          >
+            <User size={14} />
+            {user ? (isAdmin ? 'Admin' : 'Account') : 'Login'}
+          </button>
+        </div>
+
         {/* Logo */}
         <motion.a
           href="#home"
           whileHover={{ scale: 1.05 }}
-          className="text-2xl font-serif text-[#282828] flex items-center gap-2 group"
+          className="text-2xl font-serif text-[#282828] flex items-center gap-2 group absolute left-1/2 -translate-x-1/2"
         >
-          <div className="w-10 h-10 bg-[#ed6094] rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-[#ed6094]/30 group-hover:rotate-12 transition-transform">SN</div>
-          <span className="font-bold tracking-tighter"><span className="text-[#ed6094]">.</span></span>
+          <div className="w-10 h-10 bg-[#282828] rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-black/30 group-hover:rotate-12 transition-transform">SN</div>
         </motion.a>
 
         {/* Desktop Nav Links */}
-        <div className="hidden md:flex items-center gap-12">
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-xs font-bold uppercase tracking-[0.2em] text-[#282828] hover:text-[#ed6094] transition-all relative group"
+              className="text-xs font-bold uppercase tracking-[0.2em] text-[#282828] hover:text-black transition-all relative group"
             >
               {link.label}
-              <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#ed6094] transition-all group-hover:w-full" />
+              <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-[#282828] transition-all group-hover:w-full" />
             </a>
           ))}
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05, backgroundColor: '#282828' }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-3 bg-[#ed6094] text-white text-xs font-black uppercase tracking-widest rounded-full shadow-lg shadow-[#ed6094]/30 transition-all"
-          >
-            Connect
-          </motion.a>
         </div>
 
         {/* Mobile menu button */}
         <div className="md:hidden">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-[#282828] hover:bg-[#ed6094]/10 rounded-lg"
+            className="p-2 text-[#282828] hover:bg-black/10 rounded-lg"
           >
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -95,7 +104,7 @@ const Navbar = () => {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-3xl font-serif font-black text-[#282828] hover:text-[#ed6094] transition-colors"
+                  className="text-3xl font-serif font-black text-[#282828] hover:text-black transition-colors"
                 >
                   {link.label}
                 </a>

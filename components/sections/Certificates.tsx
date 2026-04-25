@@ -59,7 +59,7 @@ const Certificates = () => {
               <div className="h-1 w-24 bg-[#ed6094] mx-auto md:mx-0" />
             </div>
             {isAdmin && (
-              <button 
+              <button
                 className="flex items-center gap-2 px-8 py-4 bg-[#ed6094] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-[#ed6094]/30 hover:scale-105 transition-all"
                 onClick={() => {
                   const trigger = document.getElementById('admin-cert-trigger');
@@ -94,10 +94,10 @@ const Certificates = () => {
                   </p>
 
                   <div className="aspect-video w-full bg-[#f5f3ee] rounded-2xl mb-8 overflow-hidden">
-                    <img 
-                      src={cert.image_url || '/placeholder-cert.png'} 
-                      alt={cert.title} 
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+                    <img
+                      src={cert.image_url || '/placeholder-cert.png'}
+                      alt={cert.title}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                     />
                   </div>
 

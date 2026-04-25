@@ -23,13 +23,13 @@ const Contact = () => {
       [name]: value,
     }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    const FORMSPREE_ID = "xpqynqeg"; 
-    
+
+    const FORMSPREE_ID = "xpqynqeg";
+
     try {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
@@ -134,7 +134,7 @@ const Contact = () => {
               className="bg-white border border-[#e2e2df] rounded-[2.5rem] p-10 md:p-14 shadow-2xl relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#ed6094]/5 rounded-bl-full" />
-              
+
               {submitSuccess && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}

@@ -44,7 +44,7 @@ const About = () => {
         >
           {/* Section Header */}
           <motion.div variants={itemVariants} className="space-y-6 text-center">
-            <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">Personal Story</h2>
+            <h2 className="text-sm font-bold tracking-[0.3em] text-[#ed6094] uppercase">My Story</h2>
             <h3 className="text-4xl md:text-6xl font-serif font-black text-[#282828]">
               Behind the Code
             </h3>
@@ -77,9 +77,9 @@ const About = () => {
           {/* Key Points */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: 'Education', desc: 'B.Tech at CMR College', icon: <GraduationCap className="w-8 h-8 text-[#ed6094]"/> },
-              { title: 'Focus', desc: 'Full Stack & AI', icon: <Target className="w-8 h-8 text-[#ed6094]"/> },
-              { title: 'Passion', desc: 'Creative Systems', icon: <Heart className="w-8 h-8 text-[#ed6094]"/> },
+              { title: 'Education', desc: 'B.Tech at CMR College', icon: <GraduationCap className="w-8 h-8 text-[#ed6094]" /> },
+              { title: 'Focus', desc: 'Full Stack & AI', icon: <Target className="w-8 h-8 text-[#ed6094]" /> },
+              { title: 'Passion', desc: 'Creative Systems', icon: <Heart className="w-8 h-8 text-[#ed6094]" /> },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
