@@ -3,13 +3,13 @@
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LogOut, Plus, Trash2, Edit, Home, Settings, Database, Briefcase, PenTool, Image as ImageIcon, Rocket, Award } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminPanel() {
-  const { user, isAdmin, loading } = useAuth();
+  const { user, isAdmin, loading, signOut } = useAuth();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'blogs' | 'experiences' | 'projects' | 'certificates' | 'gallery'>('blogs');
   const [items, setItems] = useState<any[]>([]);
@@ -29,8 +29,17 @@ export default function AdminPanel() {
 
   async function fetchItems() {
     setFetchLoading(true);
-    const { data, error } = await supabase.from(activeTab).select('*').order('created_at', { ascending: false });
-    if (!error) setItems(data || []);
+    if (!isSupabaseConfigured()) {
+      setItems([]);
+      setFetchLoading(false);
+      return;
+    }
+    try {
+      const { data, error } = await supabase.from(activeTab).select('*').order('created_at', { ascending: false });
+      if (!error) setItems(data || []);
+    } catch {
+      setItems([]);
+    }
     setFetchLoading(false);
   }
 
@@ -92,7 +101,7 @@ export default function AdminPanel() {
 
         <div className="mt-8 pt-8 border-t border-[#e2e2df]">
           <button 
-            onClick={() => supabase.auth.signOut()}
+            onClick={() => signOut().then(() => router.push('/'))}
             className="w-full flex items-center gap-4 p-4 text-[#282828]/40 hover:text-red-500 hover:bg-red-50/50 rounded-2xl transition-all font-black text-sm"
           >
             <LogOut size={20} />

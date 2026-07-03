@@ -13,7 +13,7 @@ import {
   Calendar,
   Building2,
 } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import {
   linkedInCertificates,
@@ -31,24 +31,33 @@ const Certificates = () => {
 
   useEffect(() => {
     async function fetchCerts() {
-      const { data, error } = await supabase
-        .from('certificates')
-        .select('*')
-        .order('created_at', { ascending: false });
+      try {
+        if (!isSupabaseConfigured()) {
+          setCerts(linkedInCertificates);
+          return;
+        }
 
-      if (!error && data && data.length > 0) {
-        setCerts(
-          data.map((cert) => ({
-            id: cert.id,
-            title: cert.title,
-            issuer: cert.issuer,
-            date: cert.date || '',
-            category: 'Professional' as const,
-            credential_link: cert.credential_link,
-            image_url: cert.image_url,
-          }))
-        );
-      } else {
+        const { data, error } = await supabase
+          .from('certificates')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!error && data && data.length > 0) {
+          setCerts(
+            data.map((cert) => ({
+              id: cert.id,
+              title: cert.title,
+              issuer: cert.issuer,
+              date: cert.date || '',
+              category: 'Professional' as const,
+              credential_link: cert.credential_link,
+              image_url: cert.image_url,
+            }))
+          );
+        } else {
+          setCerts(linkedInCertificates);
+        }
+      } catch {
         setCerts(linkedInCertificates);
       }
     }
@@ -150,7 +159,6 @@ const Certificates = () => {
             {[
               { label: 'Certifications', value: certs.length, icon: Award },
               { label: 'Issuing Orgs', value: uniqueIssuers, icon: Building2 },
-              { label: 'Verified', value: '100%', icon: ShieldCheck },
               { label: 'Latest', value: featuredCert?.date || '—', icon: Calendar },
             ].map((stat) => (
               <div

@@ -1,7 +1,12 @@
 'use client';
 
 import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import {
+  validateLocalAdminCredentials,
+  setLocalAdminSession,
+  isNetworkAuthError,
+} from '@/lib/admin-auth';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, LogOut, X, User as UserIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
@@ -9,7 +14,7 @@ import Link from 'next/link';
 import AdminModals from './AdminModals';
 
 export default function AdminSidebarToggle() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<'blog' | 'experience' | 'gallery' | 'project' | 'certificate' | null>(null);
   const [initialData, setInitialData] = useState<any>(null);
@@ -40,22 +45,66 @@ export default function AdminSidebarToggle() {
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthLoading(true);
-    
-    let result;
-    if (authMode === 'login') {
-      result = await supabase.auth.signInWithPassword({ email, password });
-    } else {
-      result = await supabase.auth.signUp({ email, password, options: { data: { is_admin: false } } });
-      if (!result.error) alert('Account created! Please ask an owner to grant admin access or update the users table in Supabase.');
+
+    if (authMode === 'signup') {
+      if (!isSupabaseConfigured()) {
+        alert('New account registration requires a connected Supabase project. Use Sign In with your admin email and password instead.');
+        setAuthLoading(false);
+        return;
+      }
+
+      const result = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { is_admin: false } },
+      });
+
+      if (result.error) {
+        alert(result.error.message);
+      } else {
+        alert('Account created! Please ask an owner to grant admin access or update the users table in Supabase.');
+      }
+      setAuthLoading(false);
+      return;
     }
 
-    if (result.error) alert(result.error.message);
-    else if (authMode === 'login' && !result.error) setIsOpen(false);
+    // Sign in: try Supabase first when configured, then local admin fallback
+    if (isSupabaseConfigured()) {
+      try {
+        const result = await supabase.auth.signInWithPassword({ email, password });
+
+        if (!result.error) {
+          setIsOpen(false);
+          setAuthLoading(false);
+          return;
+        }
+
+        if (!isNetworkAuthError(result.error.message)) {
+          alert(result.error.message);
+          setAuthLoading(false);
+          return;
+        }
+      } catch {
+        // fall through to local admin login
+      }
+    }
+
+    if (validateLocalAdminCredentials(email, password)) {
+      setLocalAdminSession(email);
+      setIsOpen(false);
+    } else {
+      alert(
+        isSupabaseConfigured()
+          ? 'Sign in failed. Check your email and password.'
+          : 'Database is offline. Sign in with your portfolio admin email and password.'
+      );
+    }
+
     setAuthLoading(false);
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await signOut();
     setIsOpen(false);
   };
 

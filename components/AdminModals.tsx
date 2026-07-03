@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { X, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -64,6 +64,12 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!isSupabaseConfigured()) {
+      alert('Database is currently offline. Reconnect Supabase to save content from the admin panel.');
+      return;
+    }
+
     setLoading(true);
 
     const isEdit = !!initialData?.id;
