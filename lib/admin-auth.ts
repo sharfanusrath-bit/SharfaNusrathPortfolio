@@ -71,3 +71,30 @@ export function isNetworkAuthError(message: string): boolean {
     lower.includes('could not resolve')
   );
 }
+
+export function isUserAlreadyRegistered(message: string): boolean {
+  const lower = message.toLowerCase();
+  return (
+    lower.includes('already registered') ||
+    lower.includes('already exists') ||
+    lower.includes('user already')
+  );
+}
+
+export function isInvalidCredentials(message: string): boolean {
+  const lower = message.toLowerCase();
+  return lower.includes('invalid login credentials') || lower.includes('invalid credentials');
+}
+
+export function formatAuthError(message: string, mode: 'login' | 'signup'): string {
+  if (isUserAlreadyRegistered(message)) {
+    return 'This email is already registered. Use Sign In instead, or click Forgot Password if you do not remember your password.';
+  }
+  if (isInvalidCredentials(message)) {
+    return 'Invalid email or password. If you already registered, use Forgot Password. Also check your inbox for a Supabase confirmation email.';
+  }
+  if (mode === 'signup' && message.toLowerCase().includes('password')) {
+    return `${message} (Use at least 6 characters.)`;
+  }
+  return message;
+}

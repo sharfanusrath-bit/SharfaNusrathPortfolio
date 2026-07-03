@@ -6,6 +6,8 @@ import {
   validateLocalAdminCredentials,
   setLocalAdminSession,
   isNetworkAuthError,
+  isUserAlreadyRegistered,
+  formatAuthError,
 } from '@/lib/admin-auth';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, LogOut, X, User as UserIcon } from 'lucide-react';
@@ -18,11 +20,12 @@ export default function AdminSidebarToggle() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<'blog' | 'experience' | 'gallery' | 'project' | 'certificate' | null>(null);
   const [initialData, setInitialData] = useState<any>(null);
-  
+
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
+  const [authMessage, setAuthMessage] = useState<{ type: 'error' | 'success' | 'info'; text: string } | null>(null);
 
   useEffect(() => {
     const handleToggle = () => setIsOpen(prev => !prev);
@@ -33,7 +36,7 @@ export default function AdminSidebarToggle() {
         setIsOpen(true);
       }
     };
-    
+
     window.addEventListener('toggle-admin-panel', handleToggle);
     window.addEventListener('open-admin-modal', handleOpenModal);
     return () => {
@@ -42,36 +45,97 @@ export default function AdminSidebarToggle() {
     };
   }, []);
 
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      setAuthMessage({ type: 'error', text: 'Enter your email above first, then click Forgot Password.' });
+      return;
+    }
+
+    if (!isSupabaseConfigured()) {
+      setAuthMessage({ type: 'error', text: 'Supabase is not connected. Cannot send reset email.' });
+      return;
+    }
+
+    setAuthLoading(true);
+    setAuthMessage(null);
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/`,
+    });
+
+    setAuthLoading(false);
+
+    if (error) {
+      setAuthMessage({ type: 'error', text: formatAuthError(error.message, 'login') });
+    } else {
+      setAuthMessage({
+        type: 'success',
+        text: 'Password reset email sent! Check your inbox (and spam folder), then sign in with the new password.',
+      });
+    }
+  };
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthLoading(true);
+    setAuthMessage(null);
+
+    const normalizedEmail = email.trim().toLowerCase();
 
     if (authMode === 'signup') {
       if (!isSupabaseConfigured()) {
-        alert('New account registration requires a connected Supabase project. Use Sign In with your admin email and password instead.');
+        setAuthMessage({
+          type: 'error',
+          text: 'Registration needs Supabase. Use Sign In with your portfolio admin account instead.',
+        });
         setAuthLoading(false);
         return;
       }
 
       const result = await supabase.auth.signUp({
-        email,
+        email: normalizedEmail,
         password,
-        options: { data: { is_admin: false } },
+        options: { data: { is_admin: true }, emailRedirectTo: `${window.location.origin}/` },
       });
 
       if (result.error) {
-        alert(result.error.message);
-      } else {
-        alert('Account created! Please ask an owner to grant admin access or update the users table in Supabase.');
+        if (isUserAlreadyRegistered(result.error.message)) {
+          setAuthMode('login');
+          setAuthMessage({
+            type: 'info',
+            text: formatAuthError(result.error.message, 'signup'),
+          });
+        } else {
+          setAuthMessage({ type: 'error', text: formatAuthError(result.error.message, 'signup') });
+        }
+        setAuthLoading(false);
+        return;
       }
+
+      // Auto-login when email confirmation is disabled
+      if (result.data.session) {
+        setAuthMessage({ type: 'success', text: 'Account created and signed in!' });
+        setIsOpen(false);
+        setAuthLoading(false);
+        return;
+      }
+
+      setAuthMode('login');
+      setAuthMessage({
+        type: 'info',
+        text: 'Account created! Check your email to confirm, then Sign In. Or run supabase_fix_admin.sql in Supabase to confirm your email instantly.',
+      });
       setAuthLoading(false);
       return;
     }
 
-    // Sign in: try Supabase first when configured, then local admin fallback
+    // Sign in: Supabase first, then local admin fallback for portfolio owner
     if (isSupabaseConfigured()) {
       try {
-        const result = await supabase.auth.signInWithPassword({ email, password });
+        const result = await supabase.auth.signInWithPassword({
+          email: normalizedEmail,
+          password,
+        });
 
         if (!result.error) {
           setIsOpen(false);
@@ -80,7 +144,7 @@ export default function AdminSidebarToggle() {
         }
 
         if (!isNetworkAuthError(result.error.message)) {
-          alert(result.error.message);
+          setAuthMessage({ type: 'error', text: formatAuthError(result.error.message, 'login') });
           setAuthLoading(false);
           return;
         }
@@ -89,15 +153,20 @@ export default function AdminSidebarToggle() {
       }
     }
 
-    if (validateLocalAdminCredentials(email, password)) {
-      setLocalAdminSession(email);
+    if (validateLocalAdminCredentials(normalizedEmail, password)) {
+      setLocalAdminSession(normalizedEmail);
+      setAuthMessage({
+        type: 'info',
+        text: 'Signed in with offline admin. To save to database, sign in with your Supabase email and password.',
+      });
       setIsOpen(false);
     } else {
-      alert(
-        isSupabaseConfigured()
-          ? 'Sign in failed. Check your email and password.'
-          : 'Database is offline. Sign in with your portfolio admin email and password.'
-      );
+      setAuthMessage({
+        type: 'error',
+        text: isSupabaseConfigured()
+          ? 'Sign in failed. Your account may already exist — try Forgot Password, or confirm your email in Supabase.'
+          : 'Database is offline. Use portfolio admin: sharfanusrath@gmail.com / Sharfa@Admin2026',
+      });
     }
 
     setAuthLoading(false);
@@ -106,18 +175,18 @@ export default function AdminSidebarToggle() {
   const handleLogout = async () => {
     await signOut();
     setIsOpen(false);
+    setAuthMessage(null);
   };
 
   return (
     <>
-      {/* Admin Modals */}
-      <AdminModals 
-        type={activeModal} 
+      <AdminModals
+        type={activeModal}
         initialData={initialData}
         onClose={() => {
           setActiveModal(null);
           setInitialData(null);
-        }} 
+        }}
         onSuccess={() => {
           setActiveModal(null);
           setInitialData(null);
@@ -125,7 +194,6 @@ export default function AdminSidebarToggle() {
         }}
       />
 
-      {/* Sidebar Drawer */}
       <AnimatePresence>
         {isOpen && (
           <>
@@ -174,7 +242,7 @@ export default function AdminSidebarToggle() {
                           { id: 'certificate', label: 'New Certificate', icon: '🏆', desc: 'Add recognition' },
                           { id: 'gallery', label: 'Add Gallery', icon: '🖼️', desc: 'Upload visual' },
                         ].map((item) => (
-                          <button 
+                          <button
                             key={item.id}
                             id={`admin-${item.id}-trigger`}
                             onClick={() => setActiveModal(item.id as any)}
@@ -190,7 +258,7 @@ export default function AdminSidebarToggle() {
                           </button>
                         ))}
 
-                        <Link 
+                        <Link
                           href="/admin"
                           onClick={() => setIsOpen(false)}
                           className="flex items-center gap-4 p-4 bg-[#282828] text-white rounded-2xl hover:bg-black transition-all mt-4"
@@ -204,12 +272,14 @@ export default function AdminSidebarToggle() {
                     <div className="bg-white p-6 rounded-3xl border border-[#e2e2df]">
                       <p className="text-sm font-bold text-[#282828]">Viewer Access</p>
                       <p className="text-xs text-[#282828]/60 mt-1">You are logged in as {user.email}</p>
-                      <p className="text-xs text-[#282828] font-bold mt-4 italic">Action Required: Ask Sharfa to grant you admin permissions in the database.</p>
+                      <p className="text-xs text-[#282828] font-bold mt-4 italic">
+                        Run supabase_fix_admin.sql in Supabase SQL Editor to grant admin access.
+                      </p>
                     </div>
                   )}
 
                   <div className="mt-auto pt-8">
-                    <button 
+                    <button
                       onClick={handleLogout}
                       className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-white border border-[#e2e2df] text-[#282828] text-xs font-bold uppercase tracking-widest hover:border-black hover:bg-black hover:text-white transition-all"
                     >
@@ -220,48 +290,77 @@ export default function AdminSidebarToggle() {
               ) : (
                 <div className="flex-1 flex flex-col">
                   <div className="flex gap-4 mb-8">
-                    <button 
-                      onClick={() => setAuthMode('login')}
+                    <button
+                      onClick={() => { setAuthMode('login'); setAuthMessage(null); }}
                       className={`flex-1 pb-2 text-[10px] font-black uppercase tracking-widest transition-all ${authMode === 'login' ? 'text-black border-b-2 border-black' : 'text-[#282828]/40'}`}
                     >
                       Sign In
                     </button>
-                    <button 
-                      onClick={() => setAuthMode('signup')}
+                    <button
+                      onClick={() => { setAuthMode('signup'); setAuthMessage(null); }}
                       className={`flex-1 pb-2 text-[10px] font-black uppercase tracking-widest transition-all ${authMode === 'signup' ? 'text-black border-b-2 border-black' : 'text-[#282828]/40'}`}
                     >
                       New Account
                     </button>
                   </div>
 
-                  <p className="text-sm text-[#282828]/60 mb-8 leading-relaxed italic">
-                    {authMode === 'login' ? 'Sign in to access your administrative dashboard.' : 'Enter your details to register as a new site authority.'}
+                  <p className="text-sm text-[#282828]/60 mb-4 leading-relaxed italic">
+                    {authMode === 'login'
+                      ? 'Sign in with the email and password you registered in Supabase.'
+                      : 'Only create a new account if you have not registered before.'}
                   </p>
+
+                  {authMessage && (
+                    <div
+                      className={`mb-4 p-4 rounded-2xl text-xs leading-relaxed ${
+                        authMessage.type === 'error'
+                          ? 'bg-red-50 text-red-700 border border-red-200'
+                          : authMessage.type === 'success'
+                            ? 'bg-green-50 text-green-700 border border-green-200'
+                            : 'bg-amber-50 text-amber-800 border border-amber-200'
+                      }`}
+                    >
+                      {authMessage.text}
+                    </div>
+                  )}
 
                   <form onSubmit={handleAuth} className="space-y-4">
                     <div>
                       <label className="text-[10px] font-bold text-[#282828]/40 uppercase tracking-[0.2em] mb-2 block pl-1">Email</label>
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full p-4 bg-white border border-[#e2e2df] rounded-2xl text-sm focus:outline-none focus:border-black transition-colors text-[#282828]"
-                        placeholder="your@email.com"
+                        placeholder="sharfanusrath@gmail.com"
                         required
                       />
                     </div>
                     <div>
                       <label className="text-[10px] font-bold text-[#282828]/40 uppercase tracking-[0.2em] mb-2 block pl-1">Password</label>
-                      <input 
-                        type="password" 
+                      <input
+                        type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full p-4 bg-white border border-[#e2e2df] rounded-2xl text-sm focus:outline-none focus:border-black transition-colors text-[#282828]"
                         placeholder="••••••••"
                         required
+                        minLength={6}
                       />
                     </div>
-                    <button 
+
+                    {authMode === 'login' && (
+                      <button
+                        type="button"
+                        onClick={handleForgotPassword}
+                        disabled={authLoading}
+                        className="text-[10px] font-bold uppercase tracking-widest text-[#ed6094] hover:underline disabled:opacity-50"
+                      >
+                        Forgot Password?
+                      </button>
+                    )}
+
+                    <button
                       type="submit"
                       disabled={authLoading}
                       className="w-full p-4 bg-[#282828] text-white text-xs font-bold uppercase tracking-widest rounded-2xl shadow-lg hover:bg-black transition-all disabled:opacity-50"

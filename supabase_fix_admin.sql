@@ -1,5 +1,12 @@
 -- Run this in Supabase → SQL Editor to fix admin permissions and RLS
 
+-- 0. Confirm your email manually (fixes "invalid credentials" after signup)
+UPDATE auth.users
+SET
+  email_confirmed_at = COALESCE(email_confirmed_at, now()),
+  confirmed_at = COALESCE(confirmed_at, now())
+WHERE email = 'sharfanusrath@gmail.com';
+
 -- 1. Grant yourself admin (replace email if needed)
 INSERT INTO public.users (id, is_admin)
 SELECT id, true
