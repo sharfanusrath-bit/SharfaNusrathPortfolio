@@ -29,40 +29,51 @@ const Certificates = () => {
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const { isAdmin } = useAuth();
 
-  useEffect(() => {
-    async function fetchCerts() {
-      try {
-        if (!isSupabaseConfigured()) {
-          setCerts(linkedInCertificates);
-          return;
-        }
+  const getCategoryStyle = (category: Certificate['category']) =>
+    categoryStyles[category] || categoryStyles.Professional;
 
-        const { data, error } = await supabase
-          .from('certificates')
-          .select('*')
-          .order('created_at', { ascending: false });
+  const fetchCerts = async () => {
+    try {
+      if (!isSupabaseConfigured()) {
+        setCerts(linkedInCertificates);
+        return;
+      }
 
-        if (!error && data && data.length > 0) {
-          setCerts(
-            data.map((cert) => ({
-              id: cert.id,
-              title: cert.title,
-              issuer: cert.issuer,
-              date: cert.date || '',
-              category: 'Professional' as const,
-              credential_link: cert.credential_link,
-              image_url: cert.image_url,
-            }))
-          );
-        } else {
-          setCerts(linkedInCertificates);
-        }
-      } catch {
+      const { data, error } = await supabase
+        .from('certificates')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        setCerts(
+          data.map((cert) => ({
+            id: cert.id,
+            title: cert.title,
+            issuer: cert.issuer,
+            date: cert.date || '',
+            category: 'Professional' as const,
+            credential_link: cert.credential_link,
+            image_url: cert.image_url,
+          }))
+        );
+      } else {
         setCerts(linkedInCertificates);
       }
+    } catch {
+      setCerts(linkedInCertificates);
     }
+  };
+
+  useEffect(() => {
     fetchCerts();
+    const onUpdate = () => fetchCerts();
+    window.addEventListener('portfolio-content-updated', onUpdate);
+    return () => window.removeEventListener('portfolio-content-updated', onUpdate);
   }, []);
+
+  const handleCreate = () => {
+    window.dispatchEvent(new CustomEvent('open-admin-modal', { detail: { type: 'certificate' } }));
+  };
 
   const featuredCert = certs.find((c) => c.featured) || certs[0];
   const otherCerts = certs.filter((c) => c.id !== featuredCert?.id);
@@ -84,9 +95,6 @@ const Certificates = () => {
       transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
     },
   };
-
-  const getCategoryStyle = (category: Certificate['category']) =>
-    categoryStyles[category] || categoryStyles.Professional;
 
   return (
     <section
@@ -127,14 +135,7 @@ const Certificates = () => {
               {isAdmin && (
                 <button
                   className="flex items-center gap-2 px-8 py-4 bg-[#ed6094] text-white rounded-full text-xs font-black uppercase tracking-widest shadow-xl shadow-[#ed6094]/30 hover:scale-105 transition-all"
-                  onClick={() => {
-                    const trigger = document.getElementById('admin-cert-trigger');
-                    if (trigger) trigger.click();
-                    else
-                      alert(
-                        'Please use the Control Center in the left sidebar to add certificates.'
-                      );
-                  }}
+                  onClick={handleCreate}
                 >
                   <Plus size={18} /> New Certificate
                 </button>
@@ -159,6 +160,7 @@ const Certificates = () => {
             {[
               { label: 'Certifications', value: certs.length, icon: Award },
               { label: 'Issuing Orgs', value: uniqueIssuers, icon: Building2 },
+              { label: 'Verified', value: '100%', icon: ShieldCheck },
               { label: 'Latest', value: featuredCert?.date || '—', icon: Calendar },
             ].map((stat) => (
               <div

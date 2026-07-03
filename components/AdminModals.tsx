@@ -22,6 +22,10 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
   const [content, setContent] = useState(initialData?.content || '');
   const [file, setFile] = useState<File | null>(null);
 
+  const technologiesValue = Array.isArray(formData.technologies)
+    ? formData.technologies.join(', ')
+    : (formData.technologies ?? '');
+
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
@@ -157,7 +161,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-8 overflow-y-auto flex-1 space-y-6 custom-scrollbar text-[#282828]">
+          <form onSubmit={handleSubmit} className="p-8 overflow-y-auto flex-1 space-y-6 custom-scrollbar text-[#282828] cursor-auto">
             {type === 'blog' && (
               <>
                 <div className="space-y-2">
@@ -165,7 +169,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                   <input
                     required
                     value={formData.title || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black font-serif text-lg"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black font-serif text-lg cursor-text"
                     placeholder="Enter blog title..."
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   />
@@ -186,7 +190,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                   <input
                     required
                     value={formData.title || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   />
                 </div>
@@ -195,7 +199,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                   <input
                     required
                     value={formData.company || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                   />
                 </div>
@@ -204,7 +208,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                   <input
                     required
                     value={formData.duration || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                   />
                 </div>
@@ -214,7 +218,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                     required
                     rows={4}
                     value={formData.description || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   />
                 </div>
@@ -228,7 +232,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                   <input
                     required
                     value={formData.title || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   />
                 </div>
@@ -238,15 +242,15 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                     required
                     rows={3}
                     value={formData.description || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Technologies (comma separated)</label>
                   <input
-                    value={formData.technologies?.join(', ') || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    value={technologiesValue}
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, technologies: e.target.value })}
                   />
                 </div>
@@ -254,7 +258,7 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                   <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">GitHub Link</label>
                   <input
                     value={formData.github_link || ''}
-                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black"
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
                     onChange={(e) => setFormData({ ...formData, github_link: e.target.value })}
                   />
                 </div>
@@ -265,6 +269,82 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
                     accept="image/*"
                     className="w-full p-4 bg-[#f5f3ee] border-2 border-dashed border-[#e2e2df] rounded-2xl"
                     onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  />
+                </div>
+              </div>
+            )}
+
+            {type === 'certificate' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="md:col-span-2 space-y-2">
+                  <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Certificate Title</label>
+                  <input
+                    required
+                    value={formData.title || ''}
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
+                    placeholder="e.g. Artificial Intelligence Program"
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Issuer</label>
+                  <input
+                    required
+                    value={formData.issuer || ''}
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
+                    placeholder="e.g. 1Stop.ai"
+                    onChange={(e) => setFormData({ ...formData, issuer: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Date</label>
+                  <input
+                    value={formData.date || ''}
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
+                    placeholder="e.g. Feb 2026"
+                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                  />
+                </div>
+                <div className="md:col-span-2 space-y-2">
+                  <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Credential Link</label>
+                  <input
+                    value={formData.credential_link || ''}
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
+                    placeholder="https://linkedin.com/..."
+                    onChange={(e) => setFormData({ ...formData, credential_link: e.target.value })}
+                  />
+                </div>
+                <div className="md:col-span-2 space-y-2">
+                  <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Certificate Image (Optional)</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="w-full p-4 bg-[#f5f3ee] border-2 border-dashed border-[#e2e2df] rounded-2xl cursor-pointer"
+                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  />
+                </div>
+              </div>
+            )}
+
+            {type === 'gallery' && (
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    required={!initialData?.image_url}
+                    className="w-full p-4 bg-[#f5f3ee] border-2 border-dashed border-[#e2e2df] rounded-2xl cursor-pointer"
+                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-[#282828]/60 uppercase tracking-widest">Caption (Optional)</label>
+                  <input
+                    value={formData.caption || ''}
+                    className="w-full p-4 bg-[#f5f3ee] border border-[#e2e2df] rounded-2xl focus:outline-none focus:border-black cursor-text"
+                    placeholder="Describe this moment..."
+                    onChange={(e) => setFormData({ ...formData, caption: e.target.value })}
                   />
                 </div>
               </div>

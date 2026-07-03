@@ -67,6 +67,20 @@ body {
   * {
     cursor: none;
   }
+
+  input,
+  textarea,
+  select,
+  [contenteditable='true'],
+  .cursor-text {
+    cursor: text !important;
+  }
+
+  button,
+  a,
+  label[for] {
+    cursor: none;
+  }
 }
 
 

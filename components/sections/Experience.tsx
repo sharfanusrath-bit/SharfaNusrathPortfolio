@@ -15,10 +15,17 @@ const Experience = () => {
 
   useEffect(() => {
     async function fetchExperiences() {
-      const { data, error } = await supabase.from('experiences').select('*').order('created_at', { ascending: false });
-      if (!error) setExperiences(data || []);
+      try {
+        const { data, error } = await supabase.from('experiences').select('*').order('created_at', { ascending: false });
+        if (!error) setExperiences(data || []);
+      } catch {
+        setExperiences([]);
+      }
     }
     fetchExperiences();
+    const onUpdate = () => fetchExperiences();
+    window.addEventListener('portfolio-content-updated', onUpdate);
+    return () => window.removeEventListener('portfolio-content-updated', onUpdate);
   }, []);
 
   const containerVariants = {

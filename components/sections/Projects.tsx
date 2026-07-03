@@ -12,10 +12,17 @@ const Projects = () => {
 
   useEffect(() => {
     async function fetchProjects() {
-      const { data, error } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
-      if (!error) setProjects(data || []);
+      try {
+        const { data, error } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+        if (!error) setProjects(data || []);
+      } catch {
+        setProjects([]);
+      }
     }
     fetchProjects();
+    const onUpdate = () => fetchProjects();
+    window.addEventListener('portfolio-content-updated', onUpdate);
+    return () => window.removeEventListener('portfolio-content-updated', onUpdate);
   }, []);
 
   const handleCreate = () => {
