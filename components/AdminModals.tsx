@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured, verifySupabaseAdmin } from '@/lib/supabase';
 import { X, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
@@ -67,6 +67,12 @@ export default function AdminModals({ type, onClose, onSuccess, initialData }: M
 
     if (!isSupabaseConfigured()) {
       alert('Database is currently offline. Reconnect Supabase to save content from the admin panel.');
+      return;
+    }
+
+    const adminCheck = await verifySupabaseAdmin();
+    if (!adminCheck.ok) {
+      alert(adminCheck.message);
       return;
     }
 

@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS public.blogs (
 ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Blogs are viewable by everyone" ON public.blogs FOR SELECT USING (true);
 CREATE POLICY "Admins can manage blogs" ON public.blogs 
-  FOR ALL USING (
-    (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
-  );
+  FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true))
+  WITH CHECK (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true));
 
 -- 4. Create experiences table
 CREATE TABLE IF NOT EXISTS public.experiences (
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS public.experiences (
 ALTER TABLE public.experiences ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Experiences are viewable by everyone" ON public.experiences FOR SELECT USING (true);
 CREATE POLICY "Admins can manage experiences" ON public.experiences 
-  FOR ALL USING (
-    (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
-  );
+  FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true))
+  WITH CHECK (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true));
 
 -- 5. Create gallery table
 CREATE TABLE IF NOT EXISTS public.gallery (
@@ -59,9 +59,9 @@ CREATE TABLE IF NOT EXISTS public.gallery (
 ALTER TABLE public.gallery ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Gallery items are viewable by everyone" ON public.gallery FOR SELECT USING (true);
 CREATE POLICY "Admins can manage gallery" ON public.gallery 
-  FOR ALL USING (
-    (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
-  );
+  FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true))
+  WITH CHECK (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true));
 
 -- 6. Create projects table
 CREATE TABLE IF NOT EXISTS public.projects (
@@ -79,9 +79,9 @@ CREATE TABLE IF NOT EXISTS public.projects (
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Projects are viewable by everyone" ON public.projects FOR SELECT USING (true);
 CREATE POLICY "Admins can manage projects" ON public.projects 
-  FOR ALL USING (
-    (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
-  );
+  FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true))
+  WITH CHECK (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true));
 
 -- 7. Create certificates table
 CREATE TABLE IF NOT EXISTS public.certificates (
@@ -97,9 +97,9 @@ CREATE TABLE IF NOT EXISTS public.certificates (
 ALTER TABLE public.certificates ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Certificates are viewable by everyone" ON public.certificates FOR SELECT USING (true);
 CREATE POLICY "Admins can manage certificates" ON public.certificates 
-  FOR ALL USING (
-    (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
-  );
+  FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true))
+  WITH CHECK (EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true));
 
 -- Function to handle new user signups and set metadata sync
 CREATE OR REPLACE FUNCTION public.handle_new_user()
@@ -126,15 +126,20 @@ CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id IN 
 -- Allow admins to manage objects (Upload/Update/Delete)
 CREATE POLICY "Admin Insert Objects" ON storage.objects FOR INSERT WITH CHECK (
   bucket_id IN ('gallery', 'projects', 'certificates') AND
-  (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
+  EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true)
 );
 
-CREATE POLICY "Admin Update Objects" ON storage.objects FOR UPDATE WITH CHECK (
-  bucket_id IN ('gallery', 'projects', 'certificates') AND
-  (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
-);
+CREATE POLICY "Admin Update Objects" ON storage.objects FOR UPDATE
+  USING (
+    bucket_id IN ('gallery', 'projects', 'certificates') AND
+    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true)
+  )
+  WITH CHECK (
+    bucket_id IN ('gallery', 'projects', 'certificates') AND
+    EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true)
+  );
 
 CREATE POLICY "Admin Delete Objects" ON storage.objects FOR DELETE USING (
   bucket_id IN ('gallery', 'projects', 'certificates') AND
-  (SELECT is_admin FROM public.users WHERE id = auth.uid()) = true
+  EXISTS (SELECT 1 FROM public.users WHERE id = auth.uid() AND is_admin = true)
 );
